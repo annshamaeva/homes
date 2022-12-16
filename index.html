@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+    <style>
+        @font-face {
+            font-family: 'StratosSkyeng';
+            src: url("statosskyeng-v1.001/Web_fonts/stratosskyengweb-black.woff2") format("woff2"),
+                url("statosskyeng-v1.001/Web_fonts/stratosskyengweb-black.woff") format("woff");
+            font-weight: normal;
+            font-style: normal;
+            font-display: swap;
+        }
+    </style>
+    <div class="level-div"></div>
+    </div>
+
+    <script>
+        // начинаем с глобального состояния
+        window.application = { // создаем окно приложения/игры
+            blocks: {},
+            screens: {},
+            renderScreen: function (screenName) { //проверка наличия рабочего экрана игры
+                //если screenName содержится в объекте, где экран отображается(window.application.screens), то выводим рабочий экран с игрой, иначе экрана не существует
+                if (screenName in window.application.screens) { //Оператор in возвращает true, если свойство содержится в указанном объекте или в его цепочке прототипов.
+                    window.application.screens[screenName](); // screens - экран, в котором все визуализируется
+                } else {
+                    console.log(`Экрана ${screenName} не существует`);
+                }
+            },
+            renderBlock: function (blockName, container) { //проверка наличия работающего блока
+                //если blockName содержится в объекте, где экран отображается(window.application.blocks), то выводим и показываем рабочий экран с игрой, иначе таког блока не существует
+                if (blockName in window.application.blocks) {
+                    window.application.blocks[blockName](container);
+                } else {
+                    console.log(`Блока ${blockName} не существует`);
+                }
+            },
+            renderTime: function (timer) {
+                if (timer) clearInterval(timer);
+                secs = 0;
+                //document.getElementById('timer').innerHTML = secs + ' сек.';
+                timer = setInterval(
+                    function () {
+                        secs++;
+                        //document.getElementById('timer').innerHTML = secs + ' сек.';
+                    },
+                    1000
+                );
+
+            },
+            timers: [],
+            tokens: [], // токены
+            id: [],
+            level: [],
+            playerStatus: [],
+        }
+
+        // добавляем наши будущие экраны
+
+        window.application.screens = { //создаем экраны для всей игры
+            'level': renderLevelScreen,
+            'closed-cards': renderClosedCardsScreen,
+            'open-cards': renderOpenCardsScreen,
+            'win': renderWinScreen,
+            'lose': renderLoseScreen,
+        }
+
+        window.application.blocks = { // создаем блоки для всей игры, чтобы работать с ними
+            'level-button': renderLevelButton,
+            'closed-button': renderClosedButton,
+            'open-button': renderOpenButtons,
+            'win-text': renderWin,
+            'lose-text': renderLose,
+        }
+
+        //Затем обращаемся к нашему диву и объявляем необходимые переменные, в том числе создаем элемент с подзаголовком
+
+        const app = document.querySelector('.level-div'); // обратились к единственному уже существующему диву
+
+        //стилизуем фон 
+        app.style.backgroundColor = '#004980';
+        app.style.minHeight = '100vh';
+        app.style.margin = 0;
+        app.style.padding = 0;
+        app.style.display = 'flex';
+        app.style.alignItems = 'center';
+        app.style.justifyContent = 'center';
+
+        const title = document.createElement('h2'); // создаем заголовок
+        let level;
+
+        //Рендерим страницу с уровнем (отрисовывая нужные нам элементы) 
+
+        function renderLevelButton(container) {
+            container.style.backgroundColor = "#C2F5FF";
+            container.style.borderRadius = "12px";
+            container.style.width = "480px";
+            container.style.height = "459px";
+            container.style.textAlign = "center";
+            container.style.gap = "24px"
+
+            title.textContent = 'Выбери сложность';
+            //стилизация заголовка
+            title.style.color = "#004980";
+            title.style.fontFamily = "'StratosSkyeng', sans-serif";
+            title.style.marginTop = "50px";
+
+            const button = document.createElement('button'); //создаем кнопку "старт"
+            button.style.width = "246px";
+            button.style.height = "50px";
+            button.style.backgroundColor = "##7AC100";
+            button.style.color = "#FFFFFF";
+            button.style.borderRadius = "12px";
+            button.style.fontSize = "24px";
+            button.textContent = 'Старт'; // надпись на кнопке
+
+
+            const buttonOne = document.createElement('button-one'); //создаем кнопку "1"
+            //стилизация кнопки 
+            buttonOne.style.width = "98px";
+            buttonOne.style.height = "98px";
+            buttonOne.style.backgroundColor = "#FFFFFF";
+            buttonOne.style.color = "#0080C1";
+            buttonOne.style.borderRadius = "12px";
+            buttonOne.style.fontSize = "64px";
+            buttonOne.textContent = '1'; // надпись на кнопке
+
+            const buttonTwo = document.createElement('button-two'); //создаем кнопку "1"
+            //стилизация кнопки 
+            buttonTwo.style.width = "98px";
+            buttonTwo.style.height = "98px";
+            buttonTwo.style.backgroundColor = "#FFFFFF";
+            buttonTwo.style.color = "#0080C1";
+            buttonTwo.style.borderRadius = "12px";
+            buttonTwo.style.fontSize = "64px";
+            buttonTwo.textContent = '2'; // надпись на кнопке
+
+            const buttonThree = document.createElement('button-three'); //создаем кнопку "1"
+            //стилизация кнопки 
+            buttonThree.style.width = "98px";
+            buttonThree.style.height = "98px";
+            buttonThree.style.backgroundColor = "#FFFFFF";
+            buttonThree.style.color = "#0080C1";
+            buttonThree.style.borderRadius = "12px";
+            buttonThree.style.fontSize = "64px";
+            buttonThree.textContent = '3'; // надпись на кнопке
+
+            container.appendChild(title);
+            container.appendChild(buttonOne);
+            container.appendChild(buttonTwo);
+            container.appendChild(buttonThree);
+
+            window.application.renderScreen('level'); // показываем этот экран
+        }
+
+        function renderLevelScreen() { // экран с логином
+            app.textContent = '';
+
+            const content = document.createElement('div'); // создаем новый див
+
+            window.application.renderBlock('level-button', content); // какой именно блок создали
+            // добавляем в DOM дерево
+            app.appendChild(content);
+        }
+    </script>
+</body>
+</html>
