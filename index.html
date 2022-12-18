@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -7,6 +8,7 @@
     <title>Document</title>
     <link rel="stylesheet" href="./style.css">
 </head>
+
 <body>
     <style>
         @font-face {
@@ -28,57 +30,30 @@
             screens: {},
             renderScreen: function (screenName) { //проверка наличия рабочего экрана игры
                 //если screenName содержится в объекте, где экран отображается(window.application.screens), то выводим рабочий экран с игрой, иначе экрана не существует
-                if (screenName in window.application.screens) { //Оператор in возвращает true, если свойство содержится в указанном объекте или в его цепочке прототипов.
-                    window.application.screens[screenName](); // screens - экран, в котором все визуализируется
+                if (!window.application.screens[screenName]) {
+                    console.log('Такой страницы не существует');
                 } else {
-                    console.log(`Экрана ${screenName} не существует`);
-                }
+                    this.screens[screenName];
+                };
+                window.application.timers.forEach(element => {
+                    clearInterval(element)
+                });
             },
             renderBlock: function (blockName, container) { //проверка наличия работающего блока
                 //если blockName содержится в объекте, где экран отображается(window.application.blocks), то выводим и показываем рабочий экран с игрой, иначе таког блока не существует
-                if (blockName in window.application.blocks) {
-                    window.application.blocks[blockName](container);
+                if (window.application.blocks[blockName]) {
+                    console.log('Такого блока не существует');
                 } else {
-                    console.log(`Блока ${blockName} не существует`);
-                }
-            },
-            renderTime: function (timer) {
-                if (timer) clearInterval(timer);
-                secs = 0;
-                //document.getElementById('timer').innerHTML = secs + ' сек.';
-                timer = setInterval(
-                    function () {
-                        secs++;
-                        //document.getElementById('timer').innerHTML = secs + ' сек.';
-                    },
-                    1000
-                );
-
+                    this.blocks[blockName](container);
+                };
             },
             timers: [],
-            tokens: [], // токены
-            id: [],
-            level: [],
-            playerStatus: [],
-        }
+        };
 
         // добавляем наши будущие экраны
 
-        window.application.screens = { //создаем экраны для всей игры
-            'level': renderLevelScreen,
-            'closed-cards': renderClosedCardsScreen,
-            'open-cards': renderOpenCardsScreen,
-            'win': renderWinScreen,
-            'lose': renderLoseScreen,
-        }
-
-        window.application.blocks = { // создаем блоки для всей игры, чтобы работать с ними
-            'level-button': renderLevelButton,
-            'closed-button': renderClosedButton,
-            'open-button': renderOpenButtons,
-            'win-text': renderWin,
-            'lose-text': renderLose,
-        }
+        window.application.screens['renderLevelButton'] = renderLevelButton();
+        window.application.screens.renderLevelButton;
 
         //Затем обращаемся к нашему диву и объявляем необходимые переменные, в том числе создаем элемент с подзаголовком
 
@@ -93,18 +68,19 @@
         app.style.alignItems = 'center';
         app.style.justifyContent = 'center';
 
-        const title = document.createElement('h2'); // создаем заголовок
-        let level;
-
         //Рендерим страницу с уровнем (отрисовывая нужные нам элементы) 
 
         function renderLevelButton(container) {
+            const container = document.createElement('div');
             container.style.backgroundColor = "#C2F5FF";
             container.style.borderRadius = "12px";
             container.style.width = "480px";
             container.style.height = "459px";
             container.style.textAlign = "center";
             container.style.gap = "24px"
+
+            const title = document.createElement('h2'); // создаем заголовок
+            let level;
 
             title.textContent = 'Выбери сложность';
             //стилизация заголовка
@@ -120,7 +96,6 @@
             button.style.borderRadius = "12px";
             button.style.fontSize = "24px";
             button.textContent = 'Старт'; // надпись на кнопке
-
 
             const buttonOne = document.createElement('button-one'); //создаем кнопку "1"
             //стилизация кнопки 
@@ -152,6 +127,7 @@
             buttonThree.style.fontSize = "64px";
             buttonThree.textContent = '3'; // надпись на кнопке
 
+            app.appendChild(container);
             container.appendChild(title);
             container.appendChild(buttonOne);
             container.appendChild(buttonTwo);
@@ -159,7 +135,7 @@
 
             window.application.renderScreen('level'); // показываем этот экран
         }
- 
+
         // добавляем описание функции 
         function renderLevelScreen() { // экран с уровнями
             app.textContent = '';
@@ -169,6 +145,10 @@
             window.application.renderBlock('level-button', content); // какой именно блок создали
             // добавляем в DOM дерево
             app.appendChild(content);
+        }
+
+        function renderClosedButton(container) {
+
         }
     </script>
 </body>
