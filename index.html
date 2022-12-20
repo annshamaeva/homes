@@ -10,19 +10,15 @@
 </head>
 
 <body>
-    <style>
-        @font-face {
-            font-family: 'StratosSkyeng';
-            src: url("statosskyeng-v1.001/Web_fonts/stratosskyengweb-semilight.woff2") format("woff2"),
-                url("statosskyeng-v1.001/Web_fonts/stratosskyengweb-semilight.woff") format("woff");
-            font-weight: normal;
-            font-style: normal;
-            font-display: swap;
-        }
-    </style>
-    <div class="level-div"></div>
+    <div class="level-div app_style">
+        <div class="container-level">
+            <h2 class="title-level">Выбери <br /> сложность</h2>
+            <button class="buttonOne-level">1</button>
+            <button class="buttonTwo-level">2</button>
+            <button class="buttonThree-level">3</button>
+            <button class="button-level">Старт</button>
+        </div>
     </div>
-
     <script>
         window.application = {
             blocks: {},
@@ -53,110 +49,13 @@
         window.application.screens['renderLevelButton'] = renderLevelButton();
         window.application.screens.renderLevelButton;
 
-        //стилизуем фон 
-        app.style.backgroundColor = '#004980';
-        app.style.minHeight = '100vh';
-        app.style.margin = 0;
-        app.style.padding = 0;
-        app.style.display = 'flex';
-        app.style.alignItems = 'center';
-        app.style.justifyContent = 'center';
-
-        //Рендерим страницу с уровнем (отрисовывая нужные нам элементы) 
-
         function renderLevelButton() {
-            const container = document.createElement('div');
-            container.style.backgroundColor = "#C2F5FF";
-            container.style.borderRadius = "12px";
-            container.style.width = "480px";
-            container.style.height = "459px";
-            container.style.textAlign = "center";
-            container.style.gap = "24px"
-
-            const title = document.createElement('h2'); // создаем заголовок
-            title.textContent = 'Выбери сложность';
-            //стилизация заголовка
-            title.style.color = "#004980";
-            title.style.fontFamily = "'StratosSkyeng', sans-serif";
-            title.style.marginTop = "50px";
-            title.style.fontWeight = 400;
-            title.style.fontSize = "40px";
-            title.style.lineHeight = "48px";
-            title.style.textAlign = "center";
-            title.style.fontFeatureSettings = "'pnum' on, 'lnum' on";
-
-            const buttonOne = document.createElement('button-one'); //создаем кнопку "1"
-            //стилизация кнопки 
-            buttonOne.style.width = "98px";
-            buttonOne.style.height = "98px";
-            buttonOne.style.backgroundColor = "#FFFFFF";
-            buttonOne.style.color = "#0080C1";
-            buttonOne.style.borderRadius = "12px";
-            buttonOne.style.fontSize = "64px";
-            buttonOne.style.marginRight = "26px"
-            buttonOne.style.display = "inline-block";
-            buttonOne.style.marginTop ="48px"
-            buttonOne.style.textAlign = "center";
-            buttonOne.textContent = '1'; // надпись на кнопке
-
-            const buttonTwo = document.createElement('button-two'); //создаем кнопку "2"
-            //стилизация кнопки 
-            buttonTwo.style.width = "98px";
-            buttonTwo.style.height = "98px";
-            buttonTwo.style.backgroundColor = "#FFFFFF";
-            buttonTwo.style.color = "#0080C1";
-            buttonTwo.style.borderRadius = "12px";
-            buttonTwo.style.fontSize = "64px";
-            buttonTwo.style.marginRight = "26px";
-            buttonTwo.style.display = "inline-block";
-            buttonTwo.style.textAlign = "center";
-            buttonTwo.textContent = '2'; // надпись на кнопке
-
-            const buttonThree = document.createElement('button-three'); //создаем кнопку "3"
-            //стилизация кнопки 
-            buttonThree.style.width = "98px";
-            buttonThree.style.height = "98px";
-            buttonThree.style.backgroundColor = "#FFFFFF";
-            buttonThree.style.color = "#0080C1";
-            buttonThree.style.borderRadius = "12px";
-            buttonThree.style.fontSize = "64px";
-            buttonThree.style.display = "inline-block";
-            buttonThree.style.textAlign = "center";
-            buttonThree.textContent = '3'; // надпись на кнопке
-
-            const button = document.createElement('button'); //создаем кнопку "старт"
-            button.style.width = "246px";
-            button.style.height = "50px";
-            button.style.backgroundColor = "#7AC100";
-            button.style.color = "#FFFFFF";
-            button.style.borderRadius = "12px";
-            button.style.fontSize = "24px";
-            button.style.marginTop = "67px";
-            button.style.alignItems = "center";
-            button.style.alignContent = "center";
-            button.style.border = 0;
-            button.textContent = 'Старт'; // надпись на кнопке
-
-            app.appendChild(container);
-
-            container.appendChild(title);
-            container.appendChild(button)
-            container.appendChild(buttonOne);
-            container.appendChild(buttonTwo);
-            container.appendChild(buttonThree);
+            const container = document.querySelector(".container-level");
+            const buttonOne = document.querySelector(".buttonOne-level");
+            const buttonTwo = document.querySelector(".buttonTwo-level");
+            const buttonThree = document.querySelector(".buttonThree-level");
+            const button = document.querySelector(".button-level");
         }
-
-         // добавляем описание функции 
-         function renderLevelScreen() { // экран с уровнями
-            app.textContent = '';
-
-            const content = document.createElement('div'); // создаем новый див
-
-            window.application.renderBlock('level-button', content); // какой именно блок создали
-            // добавляем в DOM дерево
-            app.appendChild(content);
-        }
-
     </script>
 </body>
 </html>

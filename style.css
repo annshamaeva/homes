@@ -1,0 +1,91 @@
+@font-face {
+    font-family: 'StratosSkyeng';
+    src: url("statosskyeng-v1.001/Web_fonts/stratosskyengweb-semilight.woff2") format("woff2"),
+        url("statosskyeng-v1.001/Web_fonts/stratosskyengweb-semilight.woff") format("woff");
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+.app_style {
+    background-color: #004980;
+    min-height: 100vh;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.container-level {
+    background-color: #C2F5FF;
+    border-radius: 12px;
+    width: 480px;
+    height: 459px;
+    text-align: center;
+    gap: 24px;
+}
+
+.title-level {
+    color: #004980;
+    font-family: 'StratosSkyeng', sans-serif;
+    margin-top: 52px;
+    font-weight: 400;
+    font-size: 40px;
+    line-height: 48px;
+    text-align: center;
+    font-feature-settings: 'pnum' on, 'lnum' on;
+}
+
+.buttonOne-level {
+    width: 97px;
+    height: 98px;
+    background-color: #FFFFFF;
+    color: #0080C1;
+    border-radius: 12px;
+    font-size: 64px;
+    margin-right: 26px;
+    display: inline-block;
+    
+    text-align: center;
+}
+
+.buttonTwo-level {
+    width: 96px;
+    height: 98px;
+    background-color:  #FFFFFF;
+    color:  #0080C1;
+    border-radius:  12px;
+    font-size:  64px;
+    margin-right:  26px;
+    display:  inline-block;
+    text-align:  center;
+}
+
+.buttonThree-level {
+    width:  96px;
+    height:  98px;
+    background-color:  #FFFFFF;
+    color:  #0080C1;
+    border-radius:  12px;
+    font-size:  64px;
+    display:  inline-block;
+    text-align:  center;
+}
+
+.button-level {
+    width:  246px;
+    height:  50px;
+    background-color:  #7AC100;
+    color:  #FFFFFF;
+    border-radius:  12px;
+    font-size:  24px;
+    align-items:  center;
+    align-content:  center;
+    border:  0;
+}
+
+.buttonOne-level, .buttonTwo-level, .buttonThree-level {
+border: 0;
+margin-bottom: 67px;
+}
