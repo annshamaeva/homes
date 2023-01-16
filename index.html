@@ -13,12 +13,17 @@
     <div class="level-div app_style">
         <div class="container-level">
             <h2 class="title-level">Выбери <br /> сложность</h2>
-            <button class="buttonOne-level">1</button>
-            <button class="buttonTwo-level">2</button>
-            <button class="buttonThree-level">3</button>
+            <form action="form-level">
+                <button class="buttonOne-level">1</button>
+                <button class="buttonTwo-level">2</button>
+                <button class="buttonThree-level">3</button>
+            </form>
             <button class="button-level">Старт</button>
         </div>
     </div>
+    <div class="screen-Level-One"></div>
+    <div class="screen-Level-Two"></div>
+    <div class="screen-Level-Three"></div>
     <script>
         window.application = {
             blocks: {},
@@ -41,21 +46,49 @@
                     this.blocks[blockName](container);
                 };
             },
-            timers: []
+            timers: [],
+            level: [],
         };
-
-        const app = document.querySelector('.level-div'); // обратились к единственному уже существующему диву
 
         window.application.screens['renderLevelButton'] = renderLevelButton();
         window.application.screens.renderLevelButton;
 
         function renderLevelButton() {
             const container = document.querySelector(".container-level");
+            const formLevel = document.querySelector(".form-level")
             const buttonOne = document.querySelector(".buttonOne-level");
             const buttonTwo = document.querySelector(".buttonTwo-level");
             const buttonThree = document.querySelector(".buttonThree-level");
             const button = document.querySelector(".button-level");
         }
+
+        button.addEventListener('click', () => { //событие по клику
+            request({ //запрос на проверку уровня
+                params: { level },
+                onSuccess: (data) => {
+                    const formLevel = data['level'].status;
+
+                    switch (formLevel) { //сравнить выражение сразу с несколькими вариантами проверки статусов игроков
+                        case 'buttonOne':
+                        window.application.screens['screenLevelOne'] = screenLevelOne();
+                        window.application.screens.screenLevelOne;
+                            break;
+                        case 'buttonTwo':
+                        window.application.screens['screenLevelTwo'] = screenLevelTwo();
+                        window.application.screens.screenLevelTwo;
+                            break;
+                        case 'buttonThree':
+                        window.application.screens['screenLevelThree'] = screenLevelThree();
+                        window.application.screens.screenLevelThree;
+                            break;
+                        default: // иначе уровень не выбран
+                            console.log('Уровень сложности игры не выбран');
+                            break;
+                    }
+                }
+            })
+        })
     </script>
 </body>
+
 </html>
