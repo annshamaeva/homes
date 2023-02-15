@@ -1,0 +1,49 @@
+{
+  "devDependencies": {
+    "eslint": "^8.34.0",
+    "eslint-config-prettier": "^8.6.0",
+    "eslint-plugin-prettier": "^4.2.1",
+    "install": "^0.13.0",
+    "npm": "^8.5.1",
+    "prettier": "^2.5.1"
+  },
+  {
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "name": "tools-packages",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "format": "prettier --write ."
+  },
+  {
+    "env": {
+        "browser": true,
+        "es6": true,
+        "node": true
+      },
+      "extends": ["eslint:recommended", "prettier"],
+      "plugins": [
+        "prettier"
+      ],
+      "parserOptions": {
+        "ecmaVersion": 2020
+      },
+      "rules": {
+        "prettier/prettier": "error",
+        "camelcase": [
+          "error"
+        ],
+        "eqeqeq": [
+          "error",
+          "always"
+        ]
+      }
+      "editor.codeActionsOnSave": {
+        "source.fixAll": true,
+      },
+    }
+    "scripts": {
+      "lint:css": "stylelint './src/style.css'"
+    },
+}

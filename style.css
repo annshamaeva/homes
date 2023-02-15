@@ -34,7 +34,7 @@
     font-size: 40px;
     line-height: 48px;
     text-align: center;
-    font-feature-settings: 'pnum' on, 'lnum' on;
+    font-feature-settings: 'pnum'on, 'lnum'on;
 }
 
 .buttonOne-level {
@@ -46,46 +46,116 @@
     font-size: 64px;
     margin-right: 26px;
     display: inline-block;
-    
+
     text-align: center;
 }
 
 .buttonTwo-level {
     width: 96px;
     height: 98px;
-    background-color:  #FFFFFF;
-    color:  #0080C1;
-    border-radius:  12px;
-    font-size:  64px;
-    margin-right:  26px;
-    display:  inline-block;
-    text-align:  center;
+    background-color: #FFFFFF;
+    color: #0080C1;
+    border-radius: 12px;
+    font-size: 64px;
+    margin-right: 26px;
+    display: inline-block;
+    text-align: center;
 }
 
 .buttonThree-level {
-    width:  96px;
-    height:  98px;
-    background-color:  #FFFFFF;
-    color:  #0080C1;
-    border-radius:  12px;
-    font-size:  64px;
-    display:  inline-block;
-    text-align:  center;
+    width: 96px;
+    height: 98px;
+    background-color: #FFFFFF;
+    color: #0080C1;
+    border-radius: 12px;
+    font-size: 64px;
+    display: inline-block;
+    text-align: center;
 }
 
 .button-level {
-    width:  246px;
-    height:  50px;
-    background-color:  #7AC100;
-    color:  #FFFFFF;
-    border-radius:  12px;
-    font-size:  24px;
-    align-items:  center;
-    align-content:  center;
-    border:  0;
+    width: 246px;
+    height: 50px;
+    background-color: #7AC100;
+    color: #FFFFFF;
+    border-radius: 12px;
+    font-size: 24px;
+    align-items: center;
+    align-content: center;
+    border: 0;
 }
 
 .buttonOne-level, .buttonTwo-level, .buttonThree-level {
-border: 0;
-margin-bottom: 67px;
+    border: 0;
+    margin-bottom: 67px;
+}
+
+.memory-game {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    perspective: 1000px;
+}
+
+.memory-card {
+    position: relative;
+    width: calc(25% - 10px);
+    height: calc(33.333% - 10px);
+    transform-style: preserve-3d;
+    box-shadow: 1px 1px 0 rgba(0, 0, 0, .3);
+    transform: scale(1);
+    transform-style: preserve-3d;
+}
+
+.memory-card:active {
+    transform: scale(0.97);
+    transition: transform .2s;
+    transition: transform .5s;
+}
+
+.card {
+    position: absolute;
+    backface-visibility: hidden;
+}
+
+.memory-card.flip {
+    transform: rotateY(180deg);
+}
+
+.front-face {
+    transform: rotateY(180deg);
+}
+
+.timer {
+    position: absolute;
+    width: 155px;
+    height: 72px;
+    left: 22px;
+    top: 41px;
+    font-family: 'StratosSkyeng';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 64px;
+    line-height: 72px;
+    color: #FFFFFF;
+}
+
+.button-again {
+    position: absolute;
+    width: 246px;
+    height: 50px;
+    left: 755px;
+    top: 52px;
+    background: #7AC100;
+    border-radius: 12px;
+    font-family: 'StratosSkyeng';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 24px;
+    line-height: 32px;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    font-feature-settings: 'pnum'on, 'lnum'on;
+    color: #FFFFFF;
 }
