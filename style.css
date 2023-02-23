@@ -1,13 +1,15 @@
 @font-face {
-    font-family: 'StratosSkyeng';
-    src: url("statosskyeng-v1.001/Web_fonts/stratosskyengweb-semilight.woff2") format("woff2"),
-        url("statosskyeng-v1.001/Web_fonts/stratosskyengweb-semilight.woff") format("woff");
+    font-family: StratosSkyeng;
+    src: url('statosskyeng-v1.001/Web_fonts/stratosskyengweb-semilight.woff2')
+            format('woff2'),
+        url('statosskyeng-v1.001/Web_fonts/stratosskyengweb-semilight.woff')
+            format('woff');
     font-weight: normal;
     font-style: normal;
     font-display: swap;
 }
 
-.app_style {
+.app-style {
     background-color: #004980;
     min-height: 100vh;
     margin: 0;
@@ -18,7 +20,7 @@
 }
 
 .container-level {
-    background-color: #C2F5FF;
+    background-color: #c2f5ff;
     border-radius: 12px;
     width: 480px;
     height: 459px;
@@ -28,33 +30,20 @@
 
 .title-level {
     color: #004980;
-    font-family: 'StratosSkyeng', sans-serif;
+    font-family: StratosSkyeng, sans-serif;
     margin-top: 52px;
     font-weight: 400;
     font-size: 40px;
     line-height: 48px;
     text-align: center;
-    font-feature-settings: 'pnum'on, 'lnum'on;
+    font-feature-settings: 'pnum' on, 'lnum' on;
 }
 
-.buttonOne-level {
+.button-one-level {
     width: 97px;
     height: 98px;
-    background-color: #FFFFFF;
-    color: #0080C1;
-    border-radius: 12px;
-    font-size: 64px;
-    margin-right: 26px;
-    display: inline-block;
-
-    text-align: center;
-}
-
-.buttonTwo-level {
-    width: 96px;
-    height: 98px;
-    background-color: #FFFFFF;
-    color: #0080C1;
+    background-color: #fff;
+    color: #0080c1;
     border-radius: 12px;
     font-size: 64px;
     margin-right: 26px;
@@ -62,11 +51,23 @@
     text-align: center;
 }
 
-.buttonThree-level {
+.button-two-level {
     width: 96px;
     height: 98px;
-    background-color: #FFFFFF;
-    color: #0080C1;
+    background-color: #fff;
+    color: #0080c1;
+    border-radius: 12px;
+    font-size: 64px;
+    margin-right: 26px;
+    display: inline-block;
+    text-align: center;
+}
+
+.button-three-level {
+    width: 96px;
+    height: 98px;
+    background-color: #fff;
+    color: #0080c1;
     border-radius: 12px;
     font-size: 64px;
     display: inline-block;
@@ -76,8 +77,8 @@
 .button-level {
     width: 246px;
     height: 50px;
-    background-color: #7AC100;
-    color: #FFFFFF;
+    background-color: #7ac100;
+    color: #fff;
     border-radius: 12px;
     font-size: 24px;
     align-items: center;
@@ -85,7 +86,9 @@
     border: 0;
 }
 
-.buttonOne-level, .buttonTwo-level, .buttonThree-level {
+.button-one-level,
+.button-two-level,
+.button-three-level {
     border: 0;
     margin-bottom: 67px;
 }
@@ -101,16 +104,15 @@
     position: relative;
     width: calc(25% - 10px);
     height: calc(33.333% - 10px);
-    transform-style: preserve-3d;
-    box-shadow: 1px 1px 0 rgba(0, 0, 0, .3);
+    box-shadow: 1px 1px 0 rgb(0 0 0 / 30%);
     transform: scale(1);
     transform-style: preserve-3d;
 }
 
 .memory-card:active {
     transform: scale(0.97);
-    transition: transform .2s;
-    transition: transform .5s;
+    transition: transform 0.2s;
+    transition: transform 0.5s;
 }
 
 .card {
@@ -132,12 +134,12 @@
     height: 72px;
     left: 22px;
     top: 41px;
-    font-family: 'StratosSkyeng';
+    font-family: StratosSkyeng, sans-serif;
     font-style: normal;
     font-weight: 400;
     font-size: 64px;
     line-height: 72px;
-    color: #FFFFFF;
+    color: #fff;
 }
 
 .button-again {
@@ -146,9 +148,9 @@
     height: 50px;
     left: 755px;
     top: 52px;
-    background: #7AC100;
+    background: #7ac100;
     border-radius: 12px;
-    font-family: 'StratosSkyeng';
+    font-family: StratosSkyeng, sans-serif;
     font-style: normal;
     font-weight: 400;
     font-size: 24px;
@@ -156,6 +158,6 @@
     display: flex;
     align-items: center;
     text-align: center;
-    font-feature-settings: 'pnum'on, 'lnum'on;
-    color: #FFFFFF;
+    font-feature-settings: 'pnum' on, 'lnum' on;
+    color: #fff;
 }
