@@ -7,7 +7,7 @@ const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
 const isProduction = process.env.NODE_ENV === "production";
 
 module.exports = {
-    entry: "./JS.js",
+    entry: "./index.js",
     mode: isProduction ? "production" : "development",
     output: {
         path: path.resolve(__dirname, "dist"),
@@ -36,8 +36,8 @@ module.exports = {
         }),
         new MiniCssExtractPlugin(),
     ],
-    optimizator: {
-        minimizer: ["...", new CssMinimizerPlugin()],
+    optimization: {
+        minimizer: ['...', new CssMinimizerPlugin()],
     },
     devtool: isProduction ? "hidden-source-map" : "source-map",
 };

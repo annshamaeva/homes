@@ -1,8 +1,8 @@
 @font-face {
     font-family: StratosSkyeng;
-    src: url('statosskyeng-v1.001/Web_fonts/stratosskyengweb-semilight.woff2')
+    src: url('static/fonts/stratosskyengweb-semilight.woff2')
             format('woff2'),
-        url('statosskyeng-v1.001/Web_fonts/stratosskyengweb-semilight.woff')
+        url('static/fonts/stratosskyengweb-semilight.woff')
             format('woff');
     font-weight: normal;
     font-style: normal;

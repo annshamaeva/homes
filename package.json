@@ -8,7 +8,7 @@
         "build": "NODE_ENV=production webpack",
         "start": "webpack-dev-server --open",
         "format": "prettier --write .",
-        "lint:js": "eslint ./JS.js --fix",
+        "lint:js": "eslint ./index.js --fix",
         "lint:css": "stylelint ./style.css --fix",
         "lint": "npm run lint:js && npm run lint:css",
         "prepare": "husky install"
