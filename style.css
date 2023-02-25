@@ -1,9 +1,7 @@
 @font-face {
     font-family: StratosSkyeng;
-    src: url('static/fonts/stratosskyengweb-semilight.woff2')
-            format('woff2'),
-        url('static/fonts/stratosskyengweb-semilight.woff')
-            format('woff');
+    src: url('static/fonts/stratosskyengweb-semilight.woff2') format('woff2'),
+        url('static/fonts/stratosskyengweb-semilight.woff') format('woff');
     font-weight: normal;
     font-style: normal;
     font-display: swap;
