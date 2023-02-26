@@ -33,7 +33,7 @@ button.addEventListener('click', () => {
     const formLevel = document.querySelector('.form-level')
 
     switch (
-    formLevel //сравнить выражение сразу с несколькими вариантами проверки статусов игроков
+        formLevel //сравнить выражение сразу с несколькими вариантами проверки статусов игроков
     ) {
         case 'buttonOne':
             window.application.screens['screenLevelOne'] = screenLevelOne()
