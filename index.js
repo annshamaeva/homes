@@ -24,16 +24,16 @@ window.application = {
 }
 
 const memoryGame = document.querySelector('.memory-game')
-memoryGame.style.display = 'none'
+memoryGame.style.display = 'none' //скрываем все карты
 
-const button = document.querySelector('.button-level')
+const button = document.querySelector('.button-level') //кнопка начала игры
 
 button.addEventListener('click', () => {
     //событие по клику
     const formLevel = document.querySelector('.form-level')
 
     switch (
-        formLevel //сравнить выражение сразу с несколькими вариантами проверки статусов игроков
+    formLevel //сравнить выражение сразу с несколькими вариантами проверки статусов игроков
     ) {
         case 'buttonOne':
             window.application.screens['screenLevelOne'] = screenLevelOne()
@@ -53,16 +53,24 @@ button.addEventListener('click', () => {
     }
 })
 
+screenLevelOne.style.display = 'none'
+screenLevelTwo.style.display = 'none'
+screenLevelThree.style.display = 'none'
+
 function screenLevelOne() {
     const buttonOne = document.querySelector('.button-one-level')
     buttonOne.addEventListener('click', () => {
         //событие по клику)
         const levelDiv = document.querySelector('.level-div')
-        levelDiv.style.display = 'block'
+        levelDiv.style.display = 'none' // блокируем экран с выбором уровня
+        screenLevelOne.style.display = 'block'
+        screenLevelTwo.style.display = 'none'
+        screenLevelThree.style.display = 'none'
         const cards = document.querySelectorAll('.memory-card')
 
         shuffle()
 
+        // описываем переворот карт и чтобы переворачивалось только две карты
         let hasFlippedCard = false
         let lockBoard = false
         let firstCard, secondCard
@@ -113,6 +121,7 @@ function screenLevelOne() {
             ;[firstCard, secondCard] = [null, null]
         }
 
+        //прописываем рандомное расположение карт
         function shuffle() {
             cards.forEach((card) => {
                 let ramdomPos = Math.floor(Math.random(6) * 36)
@@ -122,6 +131,8 @@ function screenLevelOne() {
 
         cards.forEach((card) => card.addEventListener('click', flipCard))
     })
+
+    //устанавливаем таймер игры
     let timer
     let secs = 0
     if (timer) clearInterval(timer)
@@ -138,7 +149,10 @@ function screenLevelTwo() {
     buttonTwo.addEventListener('click', () => {
         // событие по клику
         const levelDiv = document.querySelector('.level-div')
-        levelDiv.style.display = 'block'
+        levelDiv.style.display = 'none'
+        screenLevelOne.style.display = 'none'
+        screenLevelTwo.style.display = 'block'
+        screenLevelThree.style.display = 'none'
 
         shuffle()
 
@@ -209,7 +223,10 @@ function screenLevelThree() {
     buttonThree.addEventListener('click', () => {
         // событие по клику
         const levelDiv = document.querySelector('.level-div')
-        levelDiv.style.display = 'block'
+        levelDiv.style.display = 'none'
+        screenLevelOne.style.display = 'none'
+        screenLevelTwo.style.display = 'none'
+        screenLevelThree.style.display = 'block'
 
         shuffle()
 
