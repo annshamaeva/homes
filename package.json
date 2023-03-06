@@ -9,7 +9,7 @@
         "start": "webpack-dev-server --open",
         "format": "prettier --write .",
         "lint:js": "eslint ./index.js --fix",
-        "lint:css": "stylelint ./style.css --fix",
+        "lint:css": "stylelint ./static/style.css --fix",
         "lint": "npm run lint:js && npm run lint:css",
         "prepare": "husky install"
     },

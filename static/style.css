@@ -7,17 +7,19 @@
     font-display: swap;
 }
 
-.app-style {
+.app {
     background-color: #004980;
     min-height: 100vh;
     margin: 0;
     padding: 0;
+    background-repeat: no-repeat;
+    background-size: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
-.container-level {
+.container {
     background-color: #c2f5ff;
     border-radius: 12px;
     width: 480px;
@@ -26,53 +28,18 @@
     gap: 24px;
 }
 
-.title-level {
+.title {
     color: #004980;
     font-family: StratosSkyeng, sans-serif;
     margin-top: 52px;
-    font-weight: 400;
+    font-weight: 400px;
     font-size: 40px;
     line-height: 48px;
     text-align: center;
     font-feature-settings: 'pnum' on, 'lnum' on;
 }
 
-.button-one-level {
-    width: 97px;
-    height: 98px;
-    background-color: #fff;
-    color: #0080c1;
-    border-radius: 12px;
-    font-size: 64px;
-    margin-right: 26px;
-    display: inline-block;
-    text-align: center;
-}
-
-.button-two-level {
-    width: 96px;
-    height: 98px;
-    background-color: #fff;
-    color: #0080c1;
-    border-radius: 12px;
-    font-size: 64px;
-    margin-right: 26px;
-    display: inline-block;
-    text-align: center;
-}
-
-.button-three-level {
-    width: 96px;
-    height: 98px;
-    background-color: #fff;
-    color: #0080c1;
-    border-radius: 12px;
-    font-size: 64px;
-    display: inline-block;
-    text-align: center;
-}
-
-.button-level {
+.button {
     width: 246px;
     height: 50px;
     background-color: #7ac100;
@@ -84,63 +51,62 @@
     border: 0;
 }
 
-.button-one-level,
-.button-two-level,
-.button-three-level {
+.choiceButtonOne {
+    width: 97px;
+    height: 98px;
+    background-color: #fff;
+    color: #0080c1;
+    border-radius: 12px;
+    font-size: 64px;
+    margin-right: 26px;
+    display: inline-block;
+    text-align: center;
     border: 0;
     margin-bottom: 67px;
 }
 
-.memory-game {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 15px;
-    perspective: 1000px;
+.choiceButtonTwo {
+    width: 96px;
+    height: 98px;
+    background-color: #fff;
+    color: #0080c1;
+    border-radius: 12px;
+    font-size: 64px;
+    margin-right: 26px;
+    display: inline-block;
+    text-align: center;
+    border: 0;
+    margin-bottom: 67px;
 }
 
-.memory-card {
-    position: relative;
-    width: calc(25% - 10px);
-    height: calc(33.333% - 10px);
-    box-shadow: 1px 1px 0 rgb(0 0 0 / 30%);
-    transform: scale(1);
-    transform-style: preserve-3d;
+.choiceButtonThree {
+    width: 96px;
+    height: 98px;
+    background-color: #fff;
+    color: #0080c1;
+    border-radius: 12px;
+    font-size: 64px;
+    display: inline-block;
+    text-align: center;
+    border: 0;
+    margin-bottom: 67px;
 }
 
-.memory-card:active {
-    transform: scale(0.97);
-    transition: transform 0.2s;
-    transition: transform 0.5s;
-}
-
-.card {
-    position: absolute;
-    backface-visibility: hidden;
-}
-
-.memory-card.flip {
-    transform: rotateY(180deg);
-}
-
-.front-face {
-    transform: rotateY(180deg);
-}
-
-.timer {
+.startTimer {
+    font-family: StratosSkyeng, sans-serif;
+    font-style: normal;
+    font-weight: 400px;
+    font-size: 64px;
+    line-height: 72px;
+    color: #FFFFFF;
+    margin-left: 22px;
     position: absolute;
     width: 155px;
     height: 72px;
-    left: 22px;
-    top: 41px;
-    font-family: StratosSkyeng, sans-serif;
-    font-style: normal;
     font-weight: 400;
-    font-size: 64px;
-    line-height: 72px;
-    color: #fff;
 }
 
-.button-again {
+.buttonAgain {
     position: absolute;
     width: 246px;
     height: 50px;
