@@ -1,4 +1,4 @@
-import Img from './static/img/рубашка.svg'
+//import Img from './static/img/рубашка.svg'
 
 // начинаем с глобального состояния
 window.application = {
@@ -122,7 +122,7 @@ function renderLevelButton(container) {
     container.appendChild(button)
 
     switch (
-     //сравнить выражение сразу с несколькими вариантами проверки статусов игроков
+        radios //сравнить выражение сразу с несколькими вариантами проверки статусов игроков
     ) {
         case 'choiceButtonOne':
             window.application.screens['renderLevelOneScreen'] =
@@ -184,29 +184,29 @@ function renderButtonOne(container) {
     buttonAgain.classList.add('buttonAgain')
 
     // поворачиваем рубашку карты
-//    if (window.application.level == "level-one") {
-//        for (let i = 0; i < 3; i++) {
-//            const random = Math.floor(Math.random() * Object.values(cards).length);
-//            array.push(Object.values(cards)[random].src);
-//            array = array.concat(array);
-//            shuffle(array);
-//        }
-//
-//        array.forEach((value) => {
-//            const card = document.createElement("img");
-//            card.setAttribute("src", value);
-//            card.classList.add("card", "card_hidden");
-//            cardField.appendChild(card);
-//        })
-//    }
+    //    if (window.application.level == "level-one") {
+    //        for (let i = 0; i < 3; i++) {
+    //            const random = Math.floor(Math.random() * Object.values(cards).length);
+    //            array.push(Object.values(cards)[random].src);
+    //            array = array.concat(array);
+    //            shuffle(array);
+    //        }
+    //
+    //        array.forEach((value) => {
+    //            const card = document.createElement("img");
+    //            card.setAttribute("src", value);
+    //            card.classList.add("card", "card_hidden");
+    //            cardField.appendChild(card);
+    //        })
+    //    }
 
-    function shuffle() {
-        // рандом на 6 карт
-        cards.forEach((card) => {
-            let ramdomPos = Math.floor(Math.random(6) * 36)
-            card.style.order = ramdomPos
-        })
-    }
+    //    function shuffle() {
+    //        // рандом на 6 карт
+    //        cards.forEach((card) => {
+    //            let ramdomPos = Math.floor(Math.random(6) * 36)
+    //            card.style.order = ramdomPos
+    //        })
+    //    }
 
     let currentRotation = 0
 
@@ -257,13 +257,13 @@ function renderButtonTwo(container) {
 
     // поворачиваем рубашку карты
 
-    function shuffle() {
-        // рандом на 6 карт
-        cards.forEach((card) => {
-            let ramdomPos = Math.floor(Math.random(6) * 36)
-            card.style.order = ramdomPos
-        })
-    }
+    //    function shuffle() {
+    //        // рандом на 6 карт
+    //        cards.forEach((card) => {
+    //            let ramdomPos = Math.floor(Math.random(6) * 36)
+    //            card.style.order = ramdomPos
+    //        })
+    //    }
 
     let currentRotation = 0
 
@@ -314,13 +314,13 @@ function renderButtonThree(container) {
 
     // поворачиваем рубашку карты
 
-    function shuffle() {
-        // рандом на 6 карт
-        cards.forEach((card) => {
-            let ramdomPos = Math.floor(Math.random(6) * 36)
-            card.style.order = ramdomPos
-        })
-    }
+    //    function shuffle() {
+    //        // рандом на 6 карт
+    //        cards.forEach((card) => {
+    //            let ramdomPos = Math.floor(Math.random(6) * 36)
+    //            card.style.order = ramdomPos
+    //        })
+    //    }
 
     let currentRotation = 0
 
