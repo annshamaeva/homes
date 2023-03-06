@@ -55,7 +55,6 @@ window.application.blocks = {
 //Затем обращаемся к нашему диву и объявляем необходимые переменные, в том числе создаем элемент с подзаголовком
 
 const app = document.querySelector('.root')
-document.app.classList.add('app')
 // обратились к единственному уже существующему диву
 
 //стилизуем фон
@@ -337,7 +336,7 @@ function renderLevelScreen() {
 
     const content = document.createElement('div') // создаем новый див
 
-    window.application.renderBlock('level-button', content) // показываем блок ожидания игрока
+    window.application.renderBlock('level-button', content) // показываем блок выбора уровня
 
     // добавляем в DOM дерево
     app.appendChild(content)
