@@ -51,7 +51,7 @@
     border: 0;
 }
 
-/*  .choiceButtonOne {
+.choice-button-one {
     width: 97px;
     height: 98px;
     background-color: #fff;
@@ -63,9 +63,9 @@
     text-align: center;
     border: 0;
     margin-bottom: 67px;
-} */
+}
 
-/* .choiceButtonTwo {
+.choice-button-two {
     width: 96px;
     height: 98px;
     background-color: #fff;
@@ -77,9 +77,9 @@
     text-align: center;
     border: 0;
     margin-bottom: 67px;
-} */
+}
 
-/* .choiceButtonThree {
+.choice-button-three {
     width: 96px;
     height: 98px;
     background-color: #fff;
@@ -91,9 +91,8 @@
     border: 0;
     margin-bottom: 67px;
 }
- */
 
-/* .startTimer {
+.start-timer {
     font-family: StratosSkyeng, sans-serif;
     font-style: normal;
     font-size: 64px;
@@ -104,9 +103,9 @@
     width: 155px;
     height: 72px;
     font-weight: 400;
-} */
+}
 
-/* .buttonAgain {
+.button-again {
     position: absolute;
     width: 246px;
     height: 50px;
@@ -125,4 +124,3 @@
     font-feature-settings: 'pnum' on, 'lnum' on;
     color: #fff;
 }
- */

@@ -69,7 +69,7 @@ function renderLevelButton(container) {
     // стилизуем фон
     container.classList.add('container')
 
-    title.textContent = 'Выбери <br /> сложность'
+    title.textContent = 'Выбери сложность'
     // Стилизация заголовка
     title.classList.add('title')
 
@@ -77,42 +77,48 @@ function renderLevelButton(container) {
 
     // Выбираем кнопку и сохраняем результат
     // Создаем радио-кнопки выбора и кнопку начала игры
-    const choiceButtonOne = document.createElement(
-        'input[type="radio" name="r1" label="1" checked]'
-    )
+    const choiceButtonOne = document.createElement('input')
+    choiceButtonOne.type = 'radio'
+    choiceButtonOne.name = 'r'
+
     //радио-кнопка выбора
-    const choiceButtonTwo = document.createElement(
-        'input[type="radio" name="r2" label="2"]'
-    )
+    const choiceButtonTwo = document.createElement('input')
+    choiceButtonTwo.type = 'radio'
+    choiceButtonTwo.name = 'r'
+
     //радио-кнопка выбора
-    const choiceButtonThree = document.createElement(
-        'input[type="radio" name="r3" label="3"]'
-    )
+    const choiceButtonThree = document.createElement('input')
+    choiceButtonThree.type = 'radio'
+    choiceButtonThree.name = 'r'
+
     //радио-кнопка выбора
     const button = document.createElement('button')
+    button.textContent = 'Старт'
     // кнопка страта после выбора уровня
 
-    let radios = document.querySelectorAll('input[type="radio"]') // обращаемся ко всем радиокнопкам
+    let radios = document.querySelectorAll('input') // обращаемся ко всем радиокнопкам
 
     button.addEventListener('click', function () {
         // слушаем какая кнопка была выбрана в итоге
+        let radio
         for (let radio of radios) {
             //ищем радиокнопку, которую выбрали среди всех радиокнопок
             console.log(radio.value) // выводим в консоль выбранную кнопку
         }
+        console.log(radio)
     })
 
     // стилизуем кнопку старта
     button.classList.add('button')
 
     // стилизуем кнопку 1
-    choiceButtonOne.classList.add('choiceButtonOne')
+    choiceButtonOne.classList.add('choice-button-one')
 
     // стилизуем кнопку 2
-    choiceButtonTwo.classList.add('choiceButtonTwo')
+    choiceButtonTwo.classList.add('choice-button-two')
 
     // стилизуем кнопку 3
-    choiceButtonThree.classList.add('choiceButtonThree')
+    choiceButtonThree.classList.add('choice-button-three')
 
     container.appendChild(title)
     container.appendChild(choiceButtonOne)
@@ -141,6 +147,36 @@ function renderLevelButton(container) {
         default: // иначе уровень не выбран
             console.log('Уровень сложности игры не выбран')
             break
+    }
+
+    if (
+        choiceButtonOne === true &&
+        choiceButtonTwo === false &&
+        choiceButtonThree === false
+    ) {
+        renderLevelOneScreen()
+    } else {
+        false
+    }
+
+    if (
+        choiceButtonOne === false &&
+        choiceButtonTwo === true &&
+        choiceButtonThree === false
+    ) {
+        renderLevelTwoScreen()
+    } else {
+        false
+    }
+
+    if (
+        choiceButtonOne === false &&
+        choiceButtonTwo === false &&
+        choiceButtonThree === true
+    ) {
+        renderLevelThreeScreen()
+    } else {
+        false
     }
 }
 
@@ -380,3 +416,5 @@ function renderLevelThreeScreen() {
     // добавляем в DOM дерево
     app.appendChild(content)
 }
+
+renderLevelScreen()
