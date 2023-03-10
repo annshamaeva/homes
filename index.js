@@ -72,6 +72,7 @@ function renderLevelButton(container) {
     title.textContent = 'Выбери сложность'
     // Стилизация заголовка
     title.classList.add('title')
+    container.appendChild(title)
 
     // Добавляем выбор уровня и стилизуем кнопки
 
@@ -80,51 +81,58 @@ function renderLevelButton(container) {
     const choiceButtonOne = document.createElement('input')
     choiceButtonOne.type = 'radio'
     choiceButtonOne.name = 'r'
+    choiceButtonOne.value = 'easy'
+    choiceButtonOne.classList.add('choice-button-one')
+    container.appendChild(choiceButtonOne)
 
     //радио-кнопка выбора
     const choiceButtonTwo = document.createElement('input')
     choiceButtonTwo.type = 'radio'
     choiceButtonTwo.name = 'r'
-
+    choiceButtonTwo.value = 'middle'
+    choiceButtonTwo.classList.add('choice-button-two')
+    container.appendChild(choiceButtonTwo)
     //радио-кнопка выбора
     const choiceButtonThree = document.createElement('input')
     choiceButtonThree.type = 'radio'
     choiceButtonThree.name = 'r'
+    choiceButtonThree.value = 'hard'
+    choiceButtonThree.classList.add('choice-button-three')
+    container.appendChild(choiceButtonThree)
 
     //радио-кнопка выбора
     const button = document.createElement('button')
     button.textContent = 'Старт'
+    button.classList.add('button')
+    container.appendChild(button)
     // кнопка страта после выбора уровня
 
     let radios = document.querySelectorAll('input') // обращаемся ко всем радиокнопкам
 
     button.addEventListener('click', function () {
-        // слушаем какая кнопка была выбрана в итоге
-        let radio
-        for (let radio of radios) {
-            //ищем радиокнопку, которую выбрали среди всех радиокнопок
-            console.log(radio.value) // выводим в консоль выбранную кнопку
+        const radios = document.querySelectorAll('input')
+
+        for (let i = 0; i < radios.length; i++) {
+            /* console.log(radios[i].checked) */
+            /* Если радио активен */
+            if (radios[i].checked) {
+                /* Записываем режим игры */
+                gameMode = radios[i].value
+                console.log(gameMode)
+            }
         }
-        console.log(radio)
+        if (choiceButtonOne.value) {
+            renderLevelOneScreen()
+        }
+        if (choiceButtonTwo.value) {
+            renderLevelTwoScreen()
+        }
+        if (choiceButtonThree.value) {
+            renderLevelThreeScreen()
+        }
     })
 
-    // стилизуем кнопку старта
-    button.classList.add('button')
-
-    // стилизуем кнопку 1
-    choiceButtonOne.classList.add('choice-button-one')
-
-    // стилизуем кнопку 2
-    choiceButtonTwo.classList.add('choice-button-two')
-
-    // стилизуем кнопку 3
-    choiceButtonThree.classList.add('choice-button-three')
-
-    container.appendChild(title)
-    container.appendChild(choiceButtonOne)
-    container.appendChild(choiceButtonTwo)
-    container.appendChild(choiceButtonThree)
-    container.appendChild(button)
+    setLevel()
 
     switch (
         radios //сравнить выражение сразу с несколькими вариантами проверки статусов игроков
@@ -148,44 +156,25 @@ function renderLevelButton(container) {
             console.log('Уровень сложности игры не выбран')
             break
     }
+}
 
-    if (
-        choiceButtonOne === true &&
-        choiceButtonTwo === false &&
-        choiceButtonThree === false
-    ) {
-        renderLevelOneScreen()
-    } else {
-        false
-    }
+let gameMode = ''
 
-    if (
-        choiceButtonOne === false &&
-        choiceButtonTwo === true &&
-        choiceButtonThree === false
-    ) {
-        renderLevelTwoScreen()
-    } else {
-        false
-    }
-
-    if (
-        choiceButtonOne === false &&
-        choiceButtonTwo === false &&
-        choiceButtonThree === true
-    ) {
-        renderLevelThreeScreen()
-    } else {
-        false
-    }
+function setLevel() {
+    let radios = document.querySelectorAll('input')
+    console.log('🚀 ~ file: index.js:193 ~ setLevel ~ radios:', radios)
 }
 
 function renderButtonOne(container) {
     //стилизуем фон
     container.classList.add('container')
 
-    let timerMinute = document.createElement('span[id="minute" label=00]')
-    let timerSecond = document.createElement('span[id="second" label=00]')
+    let timerMinute = document.createElement('span')
+    timerMinute.id = 'minute'
+    timerMinute.label = '00'
+    let timerSecond = document.createElement('span')
+    timerSecond.id = 'second'
+    timerSecond.label = '00'
 
     let timer = 0
     let timerInterval
@@ -256,8 +245,12 @@ function renderButtonTwo(container) {
     //стилизуем фон
     container.classList.add('container')
 
-    let timerMinute = document.createElement('span[id="minute" label=00]')
-    let timerSecond = document.createElement('span[id="second" label=00]')
+    let timerMinute = document.createElement('span')
+    timerMinute.id = 'minute'
+    timerMinute.label = '00'
+    let timerSecond = document.createElement('span')
+    timerSecond.id = 'second'
+    timerSecond.label = '00'
 
     let timer = 0
     let timerInterval
@@ -313,8 +306,12 @@ function renderButtonThree(container) {
     //стилизуем фон
     container.classList.add('container')
 
-    let timerMinute = document.createElement('span[id="minute" label=00]')
-    let timerSecond = document.createElement('span[id="second" label=00]')
+    let timerMinute = document.createElement('span')
+    timerMinute.id = 'minute'
+    timerMinute.label = '00'
+    let timerSecond = document.createElement('span')
+    timerSecond.id = 'second'
+    timerSecond.label = '00'
 
     let timer = 0
     let timerInterval
