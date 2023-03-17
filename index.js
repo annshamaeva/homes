@@ -1,4 +1,5 @@
-//import Img from './static/img/рубашка.svg'
+import { cardListData } from './scripts/cardListData'
+console.log(cardListData)
 
 // начинаем с глобального состояния
 window.application = {
@@ -64,9 +65,10 @@ const title = document.createElement('h2')
 
 // Рендерим страницу с выбором уровня, отрисовывая нужные элементы и добавляем событие по клику, где перебрасывает на уровни
 
-function renderLevelButton(container) {
+function renderLevelButton() {
     //стилизуем экран выбора уровня
     // стилизуем фон
+    const container = document.createElement('div')
     container.classList.add('container')
 
     title.textContent = 'Выбери сложность'
@@ -78,33 +80,60 @@ function renderLevelButton(container) {
 
     // Выбираем кнопку и сохраняем результат
     // Создаем радио-кнопки выбора и кнопку начала игры
+
+    const prodCheckbox = document.createElement('div')
+    prodCheckbox.classList.add('prod-checkbox')
+
+    const divButton = document.createElement('div')
+    divButton.classList.add('div-button')
+
     const choiceButtonOne = document.createElement('input')
     choiceButtonOne.type = 'radio'
     choiceButtonOne.name = 'r'
     choiceButtonOne.value = 'easy'
+    choiceButtonOne.id = 'l1'
     choiceButtonOne.classList.add('choice-button-one')
-    container.appendChild(choiceButtonOne)
+
+    const label1 = document.createElement('label')
+    label1.setAttribute('for', 'l1')
+    label1.innerHTML = '1'
+    divButton.appendChild(label1)
+    divButton.appendChild(choiceButtonOne)
 
     //радио-кнопка выбора
     const choiceButtonTwo = document.createElement('input')
     choiceButtonTwo.type = 'radio'
     choiceButtonTwo.name = 'r'
     choiceButtonTwo.value = 'middle'
+    choiceButtonTwo.id = 'l2'
     choiceButtonTwo.classList.add('choice-button-two')
-    container.appendChild(choiceButtonTwo)
+
+    const label2 = document.createElement('label')
+    label2.setAttribute('for', 'l2')
+    label2.innerHTML = '2'
+    divButton.appendChild(label2)
+    divButton.appendChild(choiceButtonTwo)
+
     //радио-кнопка выбора
     const choiceButtonThree = document.createElement('input')
     choiceButtonThree.type = 'radio'
     choiceButtonThree.name = 'r'
     choiceButtonThree.value = 'hard'
+    choiceButtonThree.id = 'l3'
     choiceButtonThree.classList.add('choice-button-three')
-    container.appendChild(choiceButtonThree)
+
+    const label3 = document.createElement('label')
+    label3.setAttribute('for', 'l3')
+    label3.innerHTML = '3'
+    divButton.appendChild(label3)
+    divButton.appendChild(choiceButtonThree)
 
     //радио-кнопка выбора
+    const divStart = document.createElement('div')
     const button = document.createElement('button')
     button.textContent = 'Старт'
     button.classList.add('button')
-    container.appendChild(button)
+    divStart.appendChild(button)
     // кнопка страта после выбора уровня
 
     let radios = document.querySelectorAll('input') // обращаемся ко всем радиокнопкам
@@ -156,6 +185,11 @@ function renderLevelButton(container) {
             console.log('Уровень сложности игры не выбран')
             break
     }
+
+    prodCheckbox.appendChild(divButton)
+    container.appendChild(prodCheckbox)
+    container.appendChild(divStart)
+    app.appendChild(container)
 }
 
 let gameMode = ''
@@ -165,8 +199,9 @@ function setLevel() {
     console.log('🚀 ~ file: index.js:193 ~ setLevel ~ radios:', radios)
 }
 
-function renderButtonOne(container) {
+function renderButtonOne() {
     //стилизуем фон
+    const container = document.createElement('div')
     container.classList.add('container')
 
     let timerMinute = document.createElement('span')
@@ -200,6 +235,86 @@ function renderButtonOne(container) {
 
     // стилизуем секундомер
     timerInterval.classList.add('startTimer')
+
+    const array = []
+    for (let i = 0; i < 3; i++) {
+        const random = Math.floor(Math.random() * cardListData.length)
+        array.push(cardListData[random])
+        // shuffle(arrayNew);
+    }
+    const arrayNew = array.concat(array)
+    console.log(arrayNew)
+
+    // Количество отгаданных пар
+    //  let moves = 0 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+    let firstCard
+    let secondCard
+    let isCardFlipped = false
+
+    // eslint-disable-next-line no-inner-declarations
+    function flipCard() {
+        console.log('flipping card')
+        // Если уже была выбрана первая карта повторно, то выходим из функции
+        if (firstCard === this) return
+        // Если карта ни разу не была перевернута, то это первая карта
+        if (!isCardFlipped) {
+            // присваиваем карту
+            firstCard = this
+            // Задаем в переменную, что мы перевернули карту
+            isCardFlipped = true
+            // выходим из функции
+            return
+        }
+        // в теле функции код дошел до этой строчки
+        // значит не было выхода из функции и карта уже была перевернута (isCardFlipped равен true)
+        // присваиваем как вторую карту
+        secondCard = this
+
+        // вызов функции проверки внутри функции flipCard, так как она будет вызываться при клике на карту
+        checkWin()
+    }
+
+    // Вызываем функцию проверки карты
+    function checkWin() {
+        // Смотрим, какие у них data атрибуты
+        console.log('check first card: ', firstCard.dataset.framework)
+        console.log('check second card: ', secondCard.dataset.framework)
+
+        let winResult = false
+
+        if (firstCard.dataset.framework === secondCard.dataset.framework) {
+            winResult = true
+            // Увеличиваем значение угаданных пар
+            // moves++ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        }
+
+        console.log('🚀 ~ file: level.js:58 ~ checkWin ~ winResult:', winResult)
+
+        if (winResult /* && moves === 3 */) {
+            alert('Вы победили')
+        }
+
+        // Если количество попыток для данного уровня сложност достигнуто
+        // показываем надпись Вы выиграли
+    }
+    arrayNew.forEach((card) => {
+        const cardElem = document.createElement(card.elem)
+        cardElem.setAttribute('src', card.src)
+
+        // Задаем data атрибут, значение равно пути до картинки
+        cardElem.setAttribute('data-framework', card.src)
+
+        container.appendChild(cardElem)
+        function coupCard() {
+            cardElem.setAttribute('src', card.cardShirt)
+        }
+        setTimeout(coupCard, 5000)
+        cardElem.addEventListener('click', flipCard)
+        cardElem.addEventListener('click', function () {
+            cardElem.setAttribute('src', card.src)
+        })
+    })
 
     const buttonAgain = document.createElement('button')
     finalTimer()
@@ -232,17 +347,19 @@ function renderButtonOne(container) {
     //        })
     //    }
 
-    let currentRotation = 0
-
-    currentRotation.addEventListener('click', function () {
-        currentRotation += 90
-        document.querySelector('#sample').style.transform =
-            'rotate(' + currentRotation + 'deg)'
-    })
+    //let currentRotation = 0
+    //
+    //currentRotation.addEventListener('click', function () {
+    //    currentRotation += 90
+    //    document.querySelector('#sample').style.transform =
+    //        'rotate(' + currentRotation + 'deg)'
+    //})
+    //app.appendChild(container)
 }
 
-function renderButtonTwo(container) {
+function renderButtonTwo() {
     //стилизуем фон
+    const container = document.createElement('div')
     container.classList.add('container')
 
     let timerMinute = document.createElement('span')
@@ -300,10 +417,12 @@ function renderButtonTwo(container) {
         document.querySelector('#sample').style.transform =
             'rotate(' + currentRotation + 'deg)'
     })
+    app.appendChild(container)
 }
 
-function renderButtonThree(container) {
+function renderButtonThree() {
     //стилизуем фон
+    const container = document.createElement('div')
     container.classList.add('container')
 
     let timerMinute = document.createElement('span')
@@ -361,6 +480,7 @@ function renderButtonThree(container) {
         document.querySelector('#sample').style.transform =
             'rotate(' + currentRotation + 'deg)'
     })
+    app.appendChild(container)
 }
 
 function renderLevelScreen() {

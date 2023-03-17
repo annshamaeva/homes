@@ -51,45 +51,45 @@
     border: 0;
 }
 
-.choice-button-one {
-    width: 97px;
-    height: 98px;
+.prod-checkbox strong {
+    font-size: 14px;
+    color: #333;
+    display: inline-block;
+    margin-right: 10px;
+    letter-spacing: 0.5px;
+}
+
+.div-button label {
+    display: inline-block;
+    cursor: pointer;
     background-color: #fff;
     color: #0080c1;
     border-radius: 12px;
     font-size: 64px;
     margin-right: 26px;
-    display: inline-block;
     text-align: center;
     border: 0;
     margin-bottom: 67px;
+    gap: 24px;
+    height: 98px;
+    width: 98px;
+}
+
+.div-button input[type='radio'] label {
+    background: #ffffff;
+    border-radius: 12px;
+}
+
+.choice-button-one {
+    display: none;
 }
 
 .choice-button-two {
-    width: 96px;
-    height: 98px;
-    background-color: #fff;
-    color: #0080c1;
-    border-radius: 12px;
-    font-size: 64px;
-    margin-right: 26px;
-    display: inline-block;
-    text-align: center;
-    border: 0;
-    margin-bottom: 67px;
+    display: none;
 }
 
 .choice-button-three {
-    width: 96px;
-    height: 98px;
-    background-color: #fff;
-    color: #0080c1;
-    border-radius: 12px;
-    font-size: 64px;
-    display: inline-block;
-    text-align: center;
-    border: 0;
-    margin-bottom: 67px;
+    display: none;
 }
 
 .start-timer {
