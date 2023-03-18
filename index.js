@@ -133,13 +133,12 @@ function renderLevelButton() {
     const button = document.createElement('button')
     button.textContent = 'Старт'
     button.classList.add('button')
+    button.id = 'button'
     divStart.appendChild(button)
     // кнопка страта после выбора уровня
 
-    let radios = document.querySelectorAll('input') // обращаемся ко всем радиокнопкам
-
     button.addEventListener('click', function () {
-        const radios = document.querySelectorAll('input')
+        const radios = document.querySelectorAll('input') // обращаемся ко всем радиокнопкам
 
         for (let i = 0; i < radios.length; i++) {
             /* console.log(radios[i].checked) */
@@ -150,41 +149,9 @@ function renderLevelButton() {
                 console.log(gameMode)
             }
         }
-        if (choiceButtonOne.value) {
-            renderLevelOneScreen()
-        }
-        if (choiceButtonTwo.value) {
-            renderLevelTwoScreen()
-        }
-        if (choiceButtonThree.value) {
-            renderLevelThreeScreen()
-        }
     })
 
     setLevel()
-
-    switch (
-        radios //сравнить выражение сразу с несколькими вариантами проверки статусов игроков
-    ) {
-        case 'choiceButtonOne':
-            window.application.screens['renderLevelOneScreen'] =
-                renderLevelOneScreen()
-            window.application.screens.screenLevelOne
-            break
-        case 'choiceButtonTwo':
-            window.application.screens['renderLevelTwoScreen'] =
-                renderLevelTwoScreen()
-            window.application.screens.screenLevelTwo
-            break
-        case 'choiceButtonThree':
-            window.application.screens['renderLevelThreeScreen'] =
-                renderLevelThreeScreen()
-            window.application.screens.screenLevelThree
-            break
-        default: // иначе уровень не выбран
-            console.log('Уровень сложности игры не выбран')
-            break
-    }
 
     prodCheckbox.appendChild(divButton)
     container.appendChild(prodCheckbox)
@@ -347,6 +314,7 @@ function renderButtonOne() {
     //        })
     //    }
 
+    // по клику поворачиваем карту лицом на время
     //let currentRotation = 0
     //
     //currentRotation.addEventListener('click', function () {
