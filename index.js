@@ -1,505 +1,488 @@
 import { cardListData } from './scripts/cardListData'
-console.log(cardListData)
 
-// начинаем с глобального состояния
-window.application = {
-    // создаем окно приложения/игры
-    blocks: {},
-    screens: {},
-    renderScreen: function (screenName) {
-        //проверка наличия рабочего экрана игры
-        if (!window.application.screens[screenName]) {
-            // screens - экран, в котором все визуализируется
-            console.log('Такой страницы не существует')
-        } else {
-            this.screens[screenName]
-        }
-        window.application.timers.forEach((element) => {
-            clearInterval(element)
-        })
+// Уровни сложности
+const LEVEL_EASY = 'easy'
+const LEVEL_MIDDLE = 'middle'
+const LEVEL_HARD = 'hard'
+
+// Путь до картинки с рубашкой
+const CARD_SHIRT_SRC = '/static/img/shirt.svg'
+// Путь до картинки с хлопушкой
+const WIN_STICKER_SRC = '/static/img/flapper.svg'
+// Путь до картинки со смайликом
+const LOST_STICKER_SRC = '/static/img/smiley.svg'
+
+// Высота и ширина поля с карточками в зависимости от уровня сложности
+const CARDS_TABLE_SIZE = {
+    [LEVEL_EASY]: { height: 2, width: 3 },
+    [LEVEL_MIDDLE]: { height: 3, width: 4 },
+    [LEVEL_HARD]: { height: 3, width: 6 },
+}
+
+function initApp(rootId, startScreenName, screenRenderers, popupRenderers) {
+    const app = {
+        root: document.getElementById(rootId),
+        // функции отрисовки экранов
+        screenRenderers: screenRenderers,
+        // функции отрисовки всплывающих окон
+        popupRenderers: popupRenderers,
+        // Вызываем функцию отрисовки экрана. Удаляем все внутри root и рендерим экран
+        renderScreen(name) {
+            const renderer = this.screenRenderers[name]
+            if (!renderer) {
+                console.log('Unknown screen: ' + name)
+                return
+            }
+
+            this.root.innerHTML = ''
+            // Передаем состояние в функцию отрисовки
+            this.root.appendChild(renderer(this))
+        },
+
+        renderPopup(name) {
+            const renderer = this.popupRenderers[name]
+            if (!renderer) {
+                console.log('Unknown popup: ' + name)
+                return
+            }
+
+            // Создаем всплывающее окно
+            const popup = document.createElement('div')
+            popup.classList.add('popup')
+
+            // Создаем контейнер для отрисовки
+            const popupContent = document.createElement('div')
+            popupContent.classList.add('container', 'popup-container')
+            popup.appendChild(popupContent)
+
+            // Показываем окно
+            this.root.appendChild(popup)
+
+            // Передаем контейнер и состояние в функцию отрисовки
+            renderer(popupContent, app)
+        },
+
+        // Переменные глобального состояния
+
+        // Выбранный уровень
+        choosedLevel: '',
+        // соответствие id карты с url до основной картинки
+        cardUrls: {},
+        // Каждая первая перевернутая карта
+        firstCard: undefined,
+        // Кол-во карт
+        cardsCount: 0,
+        // Кол-во открытых карт
+        openedCount: 0,
+        // Начальное время в миллисекундах
+        startTime: undefined,
+        // Данные таймера
+        timer: {
+            // id, полученное чер setInterval
+            id: undefined,
+            // Ссылка на элемент с минутами
+            minutes: undefined,
+            // Ссылка на элемент с секундами
+            seconds: undefined,
+        },
+    }
+
+    window.application = app
+
+    // рендерим начальный экран
+    app.renderScreen(startScreenName)
+    return app
+}
+
+const app = initApp(
+    'root',
+    'chooseLevel',
+    {
+        chooseLevel: renderChooseLevelScreen,
+        cardsGame: renderCardsGameScreen,
     },
+    {
+        win: renderWinPopup,
+        lost: renderLostPopup,
+    }
+)
 
-    renderBlock: function (blockName, container) {
-        //проверка наличия работающего блока
-        if (!window.application.blocks[blockName]) {
-            console.log('Такого блока не существует')
-        } else {
-            this.blocks[blockName](container)
-        }
-    },
-    timers: [], // сохранение затраченного времени
-    level: [], // сохранение выбранного уровня
-}
+// создаем экран выбора уровня сложности
+function renderChooseLevelScreen(app) {
+    app.choosedLevel = ''
 
-// добавляем наши будущие экраны
-
-window.application.screens = {
-    //создаем экраны для всей игры
-    'level-choice': renderLevelScreen,
-    'level-one': renderLevelOneScreen,
-    'level-two': renderLevelTwoScreen,
-    'level-three': renderLevelThreeScreen,
-    // win: renderWinScreen,
-    // lose: renderLoseScreen,
-}
-
-window.application.blocks = {
-    // создаем блоки для всей игры, чтобы работать с ними
-    'level-button': renderLevelButton,
-    'button-one': renderButtonOne,
-    'button-two': renderButtonTwo,
-    'button-three': renderButtonThree,
-    //  'win-text': renderWinText,
-    //  'lose-text': renderLoseText,
-}
-
-//Затем обращаемся к нашему диву и объявляем необходимые переменные, в том числе создаем элемент с подзаголовком
-
-const app = document.querySelector('.root')
-// обратились к единственному уже существующему диву
-
-//стилизуем фон
-
-const title = document.createElement('h2')
-// создаем заголовок
-
-// Рендерим страницу с выбором уровня, отрисовывая нужные элементы и добавляем событие по клику, где перебрасывает на уровни
-
-function renderLevelButton() {
     //стилизуем экран выбора уровня
     // стилизуем фон
     const container = document.createElement('div')
     container.classList.add('container')
 
+    // Создаем заголовок
+    const title = document.createElement('h2')
     title.textContent = 'Выбери сложность'
     // Стилизация заголовка
     title.classList.add('title')
     container.appendChild(title)
 
     // Добавляем выбор уровня и стилизуем кнопки
-
-    // Выбираем кнопку и сохраняем результат
-    // Создаем радио-кнопки выбора и кнопку начала игры
-
-    const prodCheckbox = document.createElement('div')
-    prodCheckbox.classList.add('prod-checkbox')
-
     const divButton = document.createElement('div')
-    divButton.classList.add('div-button')
+    divButton.classList.add('choose-level-group')
 
-    const choiceButtonOne = document.createElement('input')
-    choiceButtonOne.type = 'radio'
-    choiceButtonOne.name = 'r'
-    choiceButtonOne.value = 'easy'
-    choiceButtonOne.id = 'l1'
-    choiceButtonOne.classList.add('choice-button-one')
+    createChooseLevelGroup().forEach((label) => divButton.appendChild(label))
 
-    const label1 = document.createElement('label')
-    label1.setAttribute('for', 'l1')
-    label1.innerHTML = '1'
-    divButton.appendChild(label1)
-    divButton.appendChild(choiceButtonOne)
+    container.appendChild(divButton)
 
-    //радио-кнопка выбора
-    const choiceButtonTwo = document.createElement('input')
-    choiceButtonTwo.type = 'radio'
-    choiceButtonTwo.name = 'r'
-    choiceButtonTwo.value = 'middle'
-    choiceButtonTwo.id = 'l2'
-    choiceButtonTwo.classList.add('choice-button-two')
+    // Обертка для кнопки
+    const startButtonWrapper = document.createElement('div')
+    // кнопка старта
+    const startButton = createButton('Старт', () => {
+        app.renderScreen('cardsGame')
+    })
+    startButton.id = 'start-button'
+    startButton.disabled = true
 
-    const label2 = document.createElement('label')
-    label2.setAttribute('for', 'l2')
-    label2.innerHTML = '2'
-    divButton.appendChild(label2)
-    divButton.appendChild(choiceButtonTwo)
+    startButtonWrapper.appendChild(startButton)
 
-    //радио-кнопка выбора
-    const choiceButtonThree = document.createElement('input')
-    choiceButtonThree.type = 'radio'
-    choiceButtonThree.name = 'r'
-    choiceButtonThree.value = 'hard'
-    choiceButtonThree.id = 'l3'
-    choiceButtonThree.classList.add('choice-button-three')
+    container.appendChild(startButtonWrapper)
+    return container
+}
 
-    const label3 = document.createElement('label')
-    label3.setAttribute('for', 'l3')
-    label3.innerHTML = '3'
-    divButton.appendChild(label3)
-    divButton.appendChild(choiceButtonThree)
+function createChooseLevelGroup() {
+    const selectedBtnClass = 'level-btn-selected'
 
-    //радио-кнопка выбора
-    const divStart = document.createElement('div')
-    const button = document.createElement('button')
-    button.textContent = 'Старт'
-    button.classList.add('button')
-    button.id = 'button'
-    divStart.appendChild(button)
-    // кнопка страта после выбора уровня
+    const labels = [
+        createChooseLevelLabel('l1', '1', LEVEL_EASY),
+        createChooseLevelLabel('l2', '2', LEVEL_MIDDLE),
+        createChooseLevelLabel('l3', '3', LEVEL_HARD),
+    ]
 
-    button.addEventListener('click', function () {
-        const radios = document.querySelectorAll('input') // обращаемся ко всем радиокнопкам
-
-        for (let i = 0; i < radios.length; i++) {
-            /* console.log(radios[i].checked) */
-            /* Если радио активен */
-            if (radios[i].checked) {
-                /* Записываем режим игры */
-                gameMode = radios[i].value
-                console.log(gameMode)
+    for (const label of labels) {
+        label.addEventListener('click', function (e) {
+            for (const label of labels) {
+                label.classList.remove(selectedBtnClass)
             }
-        }
-    })
+            e.target.classList.add(selectedBtnClass)
 
-    setLevel()
+            const startButton = document.getElementById('start-button')
+            startButton.disabled = false
 
-    prodCheckbox.appendChild(divButton)
-    container.appendChild(prodCheckbox)
-    container.appendChild(divStart)
-    app.appendChild(container)
-}
-
-let gameMode = ''
-
-function setLevel() {
-    let radios = document.querySelectorAll('input')
-    console.log('🚀 ~ file: index.js:193 ~ setLevel ~ radios:', radios)
-}
-
-function renderButtonOne() {
-    //стилизуем фон
-    const container = document.createElement('div')
-    container.classList.add('container')
-
-    let timerMinute = document.createElement('span')
-    timerMinute.id = 'minute'
-    timerMinute.label = '00'
-    let timerSecond = document.createElement('span')
-    timerSecond.id = 'second'
-    timerSecond.label = '00'
-
-    let timer = 0
-    let timerInterval
-    const second = document.getElementById('second')
-    const minute = document.getElementById('minute')
-
-    renderLevelButton()
-    finalTimer()
-
-    timerInterval = setInterval(function () {
-        timer += 1 / 60
-        timerSecond = Math.floor(timer) - Math.floor(timer / 60) * 60
-        timerMinute = Math.floor(timer / 60)
-        second.innerHTML =
-            timerSecond < 10 ? '0' + timerSecond.toString() : timerSecond
-        minute.innerHTML =
-            timerMinute < 10 ? '0' + timerMinute.toString() : timerMinute
-    }, 1000 / 60)
-
-    function finalTimer() {
-        clearInterval(timerInterval)
-    }
-
-    // стилизуем секундомер
-    timerInterval.classList.add('startTimer')
-
-    const array = []
-    for (let i = 0; i < 3; i++) {
-        const random = Math.floor(Math.random() * cardListData.length)
-        array.push(cardListData[random])
-        // shuffle(arrayNew);
-    }
-    const arrayNew = array.concat(array)
-    console.log(arrayNew)
-
-    // Количество отгаданных пар
-    //  let moves = 0 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
-    let firstCard
-    let secondCard
-    let isCardFlipped = false
-
-    // eslint-disable-next-line no-inner-declarations
-    function flipCard() {
-        console.log('flipping card')
-        // Если уже была выбрана первая карта повторно, то выходим из функции
-        if (firstCard === this) return
-        // Если карта ни разу не была перевернута, то это первая карта
-        if (!isCardFlipped) {
-            // присваиваем карту
-            firstCard = this
-            // Задаем в переменную, что мы перевернули карту
-            isCardFlipped = true
-            // выходим из функции
-            return
-        }
-        // в теле функции код дошел до этой строчки
-        // значит не было выхода из функции и карта уже была перевернута (isCardFlipped равен true)
-        // присваиваем как вторую карту
-        secondCard = this
-
-        // вызов функции проверки внутри функции flipCard, так как она будет вызываться при клике на карту
-        checkWin()
-    }
-
-    // Вызываем функцию проверки карты
-    function checkWin() {
-        // Смотрим, какие у них data атрибуты
-        console.log('check first card: ', firstCard.dataset.framework)
-        console.log('check second card: ', secondCard.dataset.framework)
-
-        let winResult = false
-
-        if (firstCard.dataset.framework === secondCard.dataset.framework) {
-            winResult = true
-            // Увеличиваем значение угаданных пар
-            // moves++ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-        }
-
-        console.log('🚀 ~ file: level.js:58 ~ checkWin ~ winResult:', winResult)
-
-        if (winResult /* && moves === 3 */) {
-            alert('Вы победили')
-        }
-
-        // Если количество попыток для данного уровня сложност достигнуто
-        // показываем надпись Вы выиграли
-    }
-    arrayNew.forEach((card) => {
-        const cardElem = document.createElement(card.elem)
-        cardElem.setAttribute('src', card.src)
-
-        // Задаем data атрибут, значение равно пути до картинки
-        cardElem.setAttribute('data-framework', card.src)
-
-        container.appendChild(cardElem)
-        function coupCard() {
-            cardElem.setAttribute('src', card.cardShirt)
-        }
-        setTimeout(coupCard, 5000)
-        cardElem.addEventListener('click', flipCard)
-        cardElem.addEventListener('click', function () {
-            cardElem.setAttribute('src', card.src)
+            app.choosedLevel = e.target.getAttribute('data-level')
         })
-    })
-
-    const buttonAgain = document.createElement('button')
-    finalTimer()
-
-    // стилизуем кнопку игры заново
-    buttonAgain.classList.add('buttonAgain')
-
-    // поворачиваем рубашку карты
-    //    if (window.application.level == "level-one") {
-    //        for (let i = 0; i < 3; i++) {
-    //            const random = Math.floor(Math.random() * Object.values(cards).length);
-    //            array.push(Object.values(cards)[random].src);
-    //            array = array.concat(array);
-    //            shuffle(array);
-    //        }
-    //
-    //        array.forEach((value) => {
-    //            const card = document.createElement("img");
-    //            card.setAttribute("src", value);
-    //            card.classList.add("card", "card_hidden");
-    //            cardField.appendChild(card);
-    //        })
-    //    }
-
-    //    function shuffle() {
-    //        // рандом на 6 карт
-    //        cards.forEach((card) => {
-    //            let ramdomPos = Math.floor(Math.random(6) * 36)
-    //            card.style.order = ramdomPos
-    //        })
-    //    }
-
-    // по клику поворачиваем карту лицом на время
-    //let currentRotation = 0
-    //
-    //currentRotation.addEventListener('click', function () {
-    //    currentRotation += 90
-    //    document.querySelector('#sample').style.transform =
-    //        'rotate(' + currentRotation + 'deg)'
-    //})
-    //app.appendChild(container)
-}
-
-function renderButtonTwo() {
-    //стилизуем фон
-    const container = document.createElement('div')
-    container.classList.add('container')
-
-    let timerMinute = document.createElement('span')
-    timerMinute.id = 'minute'
-    timerMinute.label = '00'
-    let timerSecond = document.createElement('span')
-    timerSecond.id = 'second'
-    timerSecond.label = '00'
-
-    let timer = 0
-    let timerInterval
-    const second = document.getElementById('second')
-    const minute = document.getElementById('minute')
-
-    renderLevelButton()
-    finalTimer()
-
-    timerInterval = setInterval(function () {
-        timer += 1 / 60
-        timerSecond = Math.floor(timer) - Math.floor(timer / 60) * 60
-        timerMinute = Math.floor(timer / 60)
-        second.innerHTML =
-            timerSecond < 10 ? '0' + timerSecond.toString() : timerSecond
-        minute.innerHTML =
-            timerMinute < 10 ? '0' + timerMinute.toString() : timerMinute
-    }, 1000 / 60)
-
-    function finalTimer() {
-        clearInterval(timerInterval)
     }
 
-    // стилизуем секундомер
-    timerInterval.classList.add('startTimer')
-
-    const buttonAgain = document.createElement('button')
-    finalTimer()
-
-    // стилизуем кнопку игры заново
-    buttonAgain.classList.add('buttonAgain')
-
-    // поворачиваем рубашку карты
-
-    //    function shuffle() {
-    //        // рандом на 6 карт
-    //        cards.forEach((card) => {
-    //            let ramdomPos = Math.floor(Math.random(6) * 36)
-    //            card.style.order = ramdomPos
-    //        })
-    //    }
-
-    let currentRotation = 0
-
-    currentRotation.addEventListener('click', function () {
-        currentRotation += 90
-        document.querySelector('#sample').style.transform =
-            'rotate(' + currentRotation + 'deg)'
-    })
-    app.appendChild(container)
+    return labels
 }
 
-function renderButtonThree() {
-    //стилизуем фон
+function createChooseLevelLabel(id, text, level) {
+    const label = document.createElement('label')
+    label.id = id
+    label.classList.add('button-level')
+    label.innerHTML = text
+    label.setAttribute('data-level', level)
+
+    return label
+}
+
+// создаем экран с самой игрой
+function renderCardsGameScreen(app) {
+    app.cardsCount = 0
+    app.openedCount = 0
+    app.firstCard = undefined
+
     const container = document.createElement('div')
-    container.classList.add('container')
 
-    let timerMinute = document.createElement('span')
-    timerMinute.id = 'minute'
-    timerMinute.label = '00'
-    let timerSecond = document.createElement('span')
-    timerSecond.id = 'second'
-    timerSecond.label = '00'
+    // создаем заголовок
+    const header = document.createElement('header')
 
-    let timer = 0
-    let timerInterval
-    const second = document.getElementById('second')
-    const minute = document.getElementById('minute')
+    // Создаем таймер
+    const timer = createTimerDiv()
+    timer.classList.add('play-timer')
+    header.appendChild(timer)
 
-    renderLevelButton()
-    finalTimer()
+    // Создаем кнопку Начать заново
+    const againButton = createButton('Начать заново', () => {
+        app.renderScreen('chooseLevel')
+    })
+    againButton.classList.add('again-button')
 
-    timerInterval = setInterval(function () {
-        timer += 1 / 60
-        timerSecond = Math.floor(timer) - Math.floor(timer / 60) * 60
-        timerMinute = Math.floor(timer / 60)
-        second.innerHTML =
-            timerSecond < 10 ? '0' + timerSecond.toString() : timerSecond
-        minute.innerHTML =
-            timerMinute < 10 ? '0' + timerMinute.toString() : timerMinute
-    }, 1000 / 60)
+    header.appendChild(againButton)
+    container.appendChild(header)
 
-    function finalTimer() {
-        clearInterval(timerInterval)
+    // Генерируем массив карт
+    const { height, width } = CARDS_TABLE_SIZE[app.choosedLevel]
+    app.cardsCount = height * width
+    const cards = generateCards(cardListData, width, height).map((card) =>
+        createCardImg(card)
+    )
+
+    // Формируем двумерный массив из карт
+    const cardTable = []
+    for (let rowI = 0; rowI < height; rowI++) {
+        let cardsRow = []
+        for (let columnnI = 0; columnnI < width; columnnI++) {
+            cardsRow.push(cards[rowI * width + columnnI])
+        }
+        cardTable.push(cardsRow)
     }
 
-    // стилизуем секундомер
-    timerInterval.classList.add('startTimer')
+    // Создаем поле с картами
+    const cardsField = document.createElement('table')
+    cardsField.classList.add('cards-field')
+    cardTable.forEach((cardsRow) => {
+        let cardsTr = document.createElement('tr')
 
-    const buttonAgain = document.createElement('button')
-    finalTimer()
+        cardsRow.forEach((card) => {
+            let cardTd = document.createElement('td')
+            cardTd.appendChild(card)
+            cardsTr.appendChild(cardTd)
+        })
 
-    // стилизуем кнопку игры заново
-    buttonAgain.classList.add('buttonAgain')
-
-    // поворачиваем рубашку карты
-
-    //    function shuffle() {
-    //        // рандом на 6 карт
-    //        cards.forEach((card) => {
-    //            let ramdomPos = Math.floor(Math.random(6) * 36)
-    //            card.style.order = ramdomPos
-    //        })
-    //    }
-
-    let currentRotation = 0
-
-    currentRotation.addEventListener('click', function () {
-        currentRotation += 90
-        document.querySelector('#sample').style.transform =
-            'rotate(' + currentRotation + 'deg)'
+        cardsField.appendChild(cardsTr)
     })
-    app.appendChild(container)
+    container.appendChild(cardsField)
+
+    // Через 5 секунд скрываем карты
+    setTimeout(() => {
+        hideCards(cards)
+
+        // Сохраняем ссылки на элементы частей таймера
+        app.timer.minutes = document.getElementById('game-timer-minutes')
+        app.timer.seconds = document.getElementById('game-timer-seconds')
+
+        // Начинаем отсчет таймера
+        app.startTime = Date.now()
+        app.timer.id = setInterval(() => updateTimer(app), 1000)
+    }, 5000)
+
+    return container
 }
 
-function renderLevelScreen() {
-    // экран выбора уровня
-    app.textContent = ''
+// Генерируем массив из перетасованных пар карт
+function generateCards(cardsData, width, height) {
+    // Берем случайные карты парами
+    const cardList = []
+    const pairsCount = Math.floor((width * height) / 2)
 
-    const content = document.createElement('div') // создаем новый див
+    for (let i = 0; i < pairsCount; i++) {
+        let card = pickRandomCard(cardsData)
+        cardList.push(card)
+        cardList.push(card)
+    }
+    shuffleArray(cardList)
+    // Чтобы наверняка перетасовались
+    shuffleArray(cardList)
 
-    window.application.renderBlock('level-button', content) // показываем блок выбора уровня
-
-    // добавляем в DOM дерево
-    app.appendChild(content)
+    return cardList
 }
 
-function renderLevelOneScreen() {
-    // экран 1 уровня
-    app.textContent = ''
-
-    const content = document.createElement('div') // создаем новый див
-
-    window.application.renderBlock('button-one', content) // показываем игру первого уровня
-    window.application.renderBlock('button-again', content) // показываем кнопку игры заново
-
-    // добавляем в DOM дерево
-    app.appendChild(content)
+function shuffleArray(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1))
+        ;[array[i], array[j]] = [array[j], array[i]]
+    }
 }
 
-function renderLevelTwoScreen() {
-    // экран 2 уровня
-    app.textContent = ''
-
-    const content = document.createElement('div') // создаем новый див
-
-    window.application.renderBlock('button-two', content) // показываем игру второго уровня
-    window.application.renderBlock('button-again', content) // показываем кнопку игры заново
-
-    // добавляем в DOM дерево
-    app.appendChild(content)
+// Берем случайную карту из списка
+function pickRandomCard(cardsData) {
+    const index = Math.floor(Math.random() * cardsData.length)
+    return cardsData[index]
 }
 
-function renderLevelThreeScreen() {
-    // экран 3 уровня
-    app.textContent = ''
+// Переворачиваем все карты рубашкой вверх
+function hideCards(cards) {
+    app.cardUrls = {}
 
-    const content = document.createElement('div') // создаем новый див
+    cards.forEach((card) => {
+        // Запоминаем, какие были пути до картинок
+        app.cardUrls[card.id] = card.src
+        // Скрываем карту
+        card.src = CARD_SHIRT_SRC
+        card.setAttribute('data-is-opened', '0')
 
-    window.application.renderBlock('button-three', content) // показываем игру третьего уровня
-    window.application.renderBlock('button-again', content) // показываем кнопку игры заново
-
-    // добавляем в DOM дерево
-    app.appendChild(content)
+        card.addEventListener('click', onCardShow)
+    })
 }
 
-renderLevelScreen()
+function updateTimer(app) {
+    // Получаем разницу в секундах
+    const timeDiff = Math.floor((Date.now() - app.startTime) / 1000)
+
+    // Обновляем показатели
+    app.timer.minutes.innerText = formatTimerPartValue(
+        Math.floor(timeDiff / 60)
+    )
+    app.timer.seconds.innerText = formatTimerPartValue(
+        Math.floor(timeDiff % 60)
+    )
+}
+
+function formatTimerPartValue(value) {
+    if (value < 10) {
+        value = '0' + value
+    }
+    return value
+}
+
+// Обрабатываем открытие карты
+function onCardShow(e) {
+    const card = e.target
+    // Если нажали на открытую карту
+    if (parseInt(card.getAttribute('data-is-opened'))) {
+        return
+    }
+
+    const cardUrl = app.cardUrls[card.id]
+    card.setAttribute('src', cardUrl)
+    card.setAttribute('data-is-opened', '1')
+
+    app.openedCount++
+
+    // если выбрали первую карту из пары
+    if (app.firstCard === undefined) {
+        app.firstCard = card
+    }
+    // Если выбрали вторую карту
+    else {
+        // Если пути до передних картинок совпали
+        if (app.cardUrls[app.firstCard.id] === cardUrl) {
+            // Если кол-во открытых карт совпадает с кол-вом карт, то показываем окно с победой
+            if (app.openedCount === app.cardsCount) {
+                app.renderPopup('win')
+            }
+        } else {
+            // Иначе проигрыш
+            app.renderPopup('lost')
+        }
+
+        // Сбрасываем первую карту
+        app.firstCard = undefined
+    }
+}
+
+function renderWinPopup(popupContent, app) {
+    renderPopup(popupContent, app, 'Вы выиграли!', WIN_STICKER_SRC)
+}
+
+function renderLostPopup(popupContent, app) {
+    renderPopup(popupContent, app, 'Вы проиграли!', LOST_STICKER_SRC)
+}
+
+// Рендерим контент всплывающего окна
+function renderPopup(popupContent, app, title, stickerSrc) {
+    // Останавливаем таймер
+    clearInterval(app.timer.id)
+    // Показываем, что таймер неактуален
+    app.timer.id = undefined
+
+    // Создаем стикер
+    const stickerImg = document.createElement('img')
+    stickerImg.src = stickerSrc
+    stickerImg.classList.add('sticker')
+    popupContent.appendChild(stickerImg)
+
+    // Создаем заголовок
+    const titleH2 = document.createElement('h2')
+    titleH2.textContent = title
+    // Стилизация заголовка
+    titleH2.classList.add('title')
+    popupContent.appendChild(titleH2)
+
+    // Создаем заголовок таймера
+    const timerTitleP = document.createElement('p')
+    timerTitleP.innerText = 'Затраченное время:'
+    timerTitleP.classList.add('timer-title')
+    popupContent.appendChild(timerTitleP)
+
+    // Создаем таймер
+    const timerDiv = createTimerDiv(false)
+    timerDiv.classList.add('end-timer')
+    popupContent.appendChild(timerDiv)
+
+    // Записываем значения в таймер
+    const timerMinutes = document.getElementById('end-timer-minutes')
+    timerMinutes.innerText = app.timer.minutes.innerText
+    const timerSeconds = document.getElementById('end-timer-seconds')
+    timerSeconds.innerText = app.timer.seconds.innerText
+
+    // Обертка для кнопки
+    const playAgainButtonWrapper = document.createElement('div')
+    // кнопка Играть снова
+    const playAgainButton = createButton('Играть снова', () => {
+        app.renderScreen('chooseLevel')
+    })
+    playAgainButton.id = 'play-again-button'
+    playAgainButtonWrapper.appendChild(playAgainButton)
+
+    popupContent.appendChild(playAgainButtonWrapper)
+}
+
+let cardI = 1
+
+function createCardImg(cardData) {
+    const card = document.createElement('img')
+    card.id = 'card-' + cardI++
+    card.setAttribute('src', '/' + cardData.image)
+
+    return card
+}
+
+// Создание таймера
+function createTimerDiv(isGameTimer = true) {
+    const timer = document.createElement('div')
+    timer.classList.add('timer')
+
+    timer.appendChild(
+        createTimerPartSpan(
+            'timer-minutes',
+            isGameTimer ? 'min' : '',
+            isGameTimer
+        )
+    )
+
+    const dotSpan = document.createElement('span')
+    dotSpan.classList.add('timer-number')
+    dotSpan.innerText = '.'
+    timer.appendChild(dotSpan)
+
+    timer.appendChild(
+        createTimerPartSpan(
+            'timer-seconds',
+            isGameTimer ? 'sek' : '',
+            isGameTimer
+        )
+    )
+
+    return timer
+}
+
+// Создание части таймера (блока с минутами или секундами)
+function createTimerPartSpan(id, label = '', isGameTimer = true) {
+    // Создаем контейнер с данными
+    const partSpan = document.createElement('span')
+
+    if (label) {
+        // Создаем подпись
+        const labelDiv = document.createElement('div')
+        labelDiv.classList.add('timer-label')
+        labelDiv.innerText = label
+        partSpan.appendChild(labelDiv)
+    }
+
+    // Создаем контейнер с числом
+    const numberDiv = document.createElement('div')
+    numberDiv.classList.add('timer-number')
+    numberDiv.id = (isGameTimer ? 'game-' : 'end-') + id
+    numberDiv.innerText = '00'
+    partSpan.appendChild(numberDiv)
+
+    return partSpan
+}
+
+function createButton(text, onClick) {
+    const button = document.createElement('button')
+    button.textContent = text
+    button.classList.add('button'),
+        // обработчик нажатия
+        button.addEventListener('click', onClick)
+
+    return button
+}

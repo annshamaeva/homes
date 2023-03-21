@@ -1,13 +1,18 @@
 @font-face {
     font-family: StratosSkyeng;
-    src: url('static/fonts/stratosskyengweb-semilight.woff2') format('woff2'),
-        url('static/fonts/stratosskyengweb-semilight.woff') format('woff');
+    src: url('fonts/stratosskyengweb-semilight.woff2') format('woff2'),
+        url('fonts/stratosskyengweb-semilight.woff') format('woff');
     font-weight: normal;
     font-style: normal;
     font-display: swap;
 }
 
-.root {
+body {
+    margin: 0;
+    padding: 0;
+}
+
+#root {
     background-color: #004980;
     min-height: 100vh;
     margin: 0;
@@ -20,23 +25,30 @@
 }
 
 .container {
+    font-family: StratosSkyeng, sans-serif;
     background-color: #c2f5ff;
     border-radius: 12px;
-    width: 480px;
-    height: 459px;
+    width: fit-content;
+    height: fit-content;
     text-align: center;
-    gap: 24px;
+    padding: 65px;
+    padding-top: 45px;
+    padding-bottom: 45px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .title {
     color: #004980;
-    font-family: StratosSkyeng, sans-serif;
-    margin-top: 52px;
     font-weight: 400px;
     font-size: 40px;
     line-height: 48px;
     text-align: center;
     font-feature-settings: 'pnum' on, 'lnum' on;
+    width: 300px;
+    margin-top: 0;
+    margin-bottom: 40px;
 }
 
 .button {
@@ -49,78 +61,134 @@
     align-items: center;
     align-content: center;
     border: 0;
+
+    /* filter: grayscale(1.0); */
 }
 
-.prod-checkbox strong {
-    font-size: 14px;
-    color: #333;
-    display: inline-block;
-    margin-right: 10px;
-    letter-spacing: 0.5px;
+.again-button {
+    margin-left: auto;
+    margin-right: 0;
 }
 
-.div-button label {
+.button-level {
+    line-height: 100px;
+    height: 100px;
+    box-sizing: border-box;
+}
+
+.button:disabled {
+    filter: grayscale(1);
+}
+
+.button:hover:enabled {
+    filter: brightness(1.08);
+}
+
+.choose-level-group {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    width: 340px;
+}
+
+.choose-level-group label {
     display: inline-block;
     cursor: pointer;
     background-color: #fff;
     color: #0080c1;
     border-radius: 12px;
+    margin-bottom: 67px;
     font-size: 64px;
-    margin-right: 26px;
     text-align: center;
     border: 0;
-    margin-bottom: 67px;
     gap: 24px;
     height: 98px;
     width: 98px;
 }
 
-.div-button input[type='radio'] label {
-    background: #fff;
-    border-radius: 12px;
+.choose-level-group label:hover {
+    filter: brightness(0.95);
 }
 
-.choice-button-one {
-    display: none;
+.level-btn-selected {
+    background-color: #007cdb !important;
+    color: white !important;
 }
 
-.choice-button-two {
-    display: none;
+header {
+    display: flex;
+    align-items: end;
+    margin-top: 31px;
+    margin-bottom: 27px;
+    padding-left: 5px;
+    padding-right: 5px;
 }
 
-.choice-button-three {
-    display: none;
-}
-
-.start-timer {
+.timer {
     font-family: StratosSkyeng, sans-serif;
     font-style: normal;
-    font-size: 64px;
-    line-height: 72px;
     color: #fff;
-    margin-left: 22px;
-    position: absolute;
-    width: 155px;
-    height: 72px;
     font-weight: 400;
+    display: flex;
+    align-items: end;
 }
 
-.button-again {
-    position: absolute;
-    width: 246px;
-    height: 50px;
-    left: 755px;
-    top: 52px;
-    background: #7ac100;
-    border-radius: 12px;
-    font-family: StratosSkyeng, sans-serif;
-    font-style: normal;
-    font-weight: 400;
-    font-size: 24px;
-    line-height: 32px;
+.timer-title {
+    font-size: 22px;
+    margin-top: 0;
+    margin-bottom: 14px;
+}
+
+.play-timer {
+    margin-right: 40px;
+}
+
+.end-timer {
+    color: black;
+    margin-bottom: 45px;
+    justify-content: center;
+}
+
+.timer-label {
+    width: fit-content;
+    font-size: 15px;
+    margin-left: auto;
+    margin-right: 0;
+    margin-bottom: 3px;
+}
+
+.timer-number {
+    height: fit-content;
+    width: fit-content;
+    font-size: 59px;
+    line-height: 48px;
+}
+
+.cards-field {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.cards-field th,
+.cards-field td {
+    padding: 5px;
+}
+
+.popup {
+    width: 100vw;
+    min-height: 100vh;
+    background-color: rgb(0 73 128 / 87%);
+    overflow: hidden;
+    position: fixed;
+    top: 0;
     display: flex;
     align-items: center;
-    text-align: center;
-    font-feature-settings: 'pnum' on, 'lnum' on;
-    color: #fff;
+    justify-content: center;
+}
+
+.popup-container {
+    padding: 78px;
+    padding-top: 35px;
+    padding-bottom: 45px;
 }

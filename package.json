@@ -5,7 +5,7 @@
     "description": "",
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1",
-        "build": "NODE_ENV=production webpack",
+        "build": "webpack --config webpack.config.js",
         "start": "webpack-dev-server --open",
         "format": "prettier --write .",
         "lint:js": "eslint ./index.js --fix",
