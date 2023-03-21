@@ -11,6 +11,7 @@
         "lint:js": "eslint ./index.js --fix",
         "lint:css": "stylelint ./static/style.css --fix",
         "lint": "npm run lint:js && npm run lint:css",
+        "lint:ts": "tsc --noEmit",
         "prepare": "husky install"
     },
     "keywords": [],
@@ -20,6 +21,7 @@
         "url": "git+https://github.com/annshamaeva/homes"
     },
     "devDependencies": {
+        "@types/lodash": "^4.14.191",
         "copy-webpack-plugin": "^11.0.0",
         "css-loader": "^6.7.3",
         "css-minimizer-webpack-plugin": "^4.2.2",
@@ -36,6 +38,8 @@
         "stylelint": "^14.16.1",
         "stylelint-config-prettier": "^9.0.5",
         "stylelint-config-standard": "^29.0.0",
+        "ts-loader": "^9.4.2",
+        "typescript": "^5.0.2",
         "webpack": "^5.72.1",
         "webpack-cli": "^5.0.1",
         "webpack-dev-server": "^4.11.1"
