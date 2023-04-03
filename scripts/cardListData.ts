@@ -1,4 +1,10 @@
-export const cardListData = [
+export interface Card {
+    id: string,
+    name: string,
+    image: string
+}
+
+export const cardListData: Card[] = [
     {
         id: 'hearts-6',
         name: 'Hearts 6',
